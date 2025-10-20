@@ -64,14 +64,14 @@ function App() {
     {
       name: 'Krishu Shah',
       role: 'Founder & Creative Visionary',
-      description: "The heart of ARTEVIA's creative direction — bringing imagination to life through design that inspires and connects.",
+      description: "The heart of ARTEVIA's creative direction - bringing imagination to life through design that inspires and connects.",
       gradient: 'from-secondary to-accent',
       image: '/static/img/krishu.JPG'
     },
     {
       name: 'Raghav Jaiswal',
       role: 'Chief Executive Officer (CEO)',
-      description: "The strategic mind behind ARTEVIA's growth — blending business insight and marketing leadership to drive brand success.",
+      description: "The strategic mind behind ARTEVIA's growth - blending business insight and marketing leadership to drive brand success.",
       gradient: 'from-accent to-primary',
       image: '/static/img/raghav.jpg',
       imagePosition: 'center 30%'
@@ -101,14 +101,14 @@ function App() {
     },
     {
       name: 'Aniruddha Mukherjee',
-      role: 'Creative Intern',
+      role: 'Graphics Intern',
       description: 'Bringing imagination to life through bold visuals and creative precision.',
       gradient: 'from-primary to-accent',
       image: '/static/img/Aniruddha.jpeg'
     },
     {
       name: 'Ishita Shaw',
-      role: 'Creative Intern',
+      role: 'Graphics Intern',
       description: 'Designing stories that speak, inspire, and leave a lasting impression.',
       gradient: 'from-secondary to-accent',
       image: '/static/img/Ishita.jpeg'
@@ -126,7 +126,7 @@ function App() {
       content: (
         <div className="space-y-3 text-foreground/70">
           <p>
-            ARTEVIA provides a full range of creative and promotional services — including Graphic Design, Branding,
+            ARTEVIA provides a full range of creative and promotional services - including Graphic Design, Branding,
             Social Media Marketing, Video Editing, Printing Solutions, and Digital Campaign Management.
           </p>
           <p>We help businesses strengthen their brand identity and connect meaningfully with their audience.</p>
@@ -137,7 +137,7 @@ function App() {
       question: 'How can I place an order or inquire about a service?',
       content: (
         <p className="text-foreground/70">
-          Simply fill out the inquiry form on our Contact Us page — select your required service, mention your budget and deadline,
+          Simply fill out the inquiry form on our Contact Us page - select your required service, mention your budget and deadline,
           and our team will reach out within 24 hours to discuss details.
         </p>
       )
@@ -196,7 +196,7 @@ function App() {
       content: (
         <div className="space-y-3 text-foreground/70">
           <p>
-            Yes! We provide end-to-end printing solutions — from business cards, flyers, banners, packaging, menus, and standees to customized print materials.
+            Yes! We provide end-to-end printing solutions - from business cards, flyers, banners, packaging, menus, and standees to customized print materials.
           </p>
           <p>Pan-India delivery is available, with a minimum order quantity (MOQ) depending on the print type and order size.</p>
         </div>
@@ -206,7 +206,7 @@ function App() {
       question: 'Can ARTEVIA handle bulk or long-term design requirements?',
       content: (
         <p className="text-foreground/70">
-          Definitely! We specialize in retainer-based partnerships for brands needing consistent design and marketing support every week or month — ideal for restaurants, startups, real estate firms, and retail chains.
+          Definitely! We specialize in retainer-based partnerships for brands needing consistent design and marketing support every week or month - ideal for restaurants, startups, real estate firms, and retail chains.
         </p>
       )
     },
@@ -227,7 +227,7 @@ function App() {
             Phone: {contactNumbers.join(' | ')}
             <br />Email: <a href="mailto:artevia.india@gmail.com" className="text-accent hover:underline">artevia.india@gmail.com</a>
           </p>
-          <p>Or send us a DM on Instagram — <span className="font-medium text-foreground">@artevia.india</span></p>
+          <p>Or send us a DM on Instagram - <span className="font-medium text-foreground">@artevia.india</span></p>
         </div>
       )
     }
@@ -389,7 +389,7 @@ function App() {
                 { id: 'services', label: 'Our Services' },
                 { id: 'work', label: 'Our Work' },
                 { id: 'about', label: 'About Us' },
-                { id: 'contact', label: 'Contact' },
+                { id: 'contact', label: 'Inquiry Form' },
                 { id: 'faq', label: 'FAQ' }
               ].map((item) => (
                 <button
@@ -410,7 +410,7 @@ function App() {
                 </button>
               ))}
               <Button 
-                onClick={() => scrollToSection('contact')}
+                onClick={() => scrollToSection('footer')}
                 className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium shadow-lg shadow-accent/20"
               >
                 Contact Us
@@ -607,7 +607,7 @@ function App() {
                 <h2 className="text-5xl md:text-6xl font-bold mb-8">About ARTEVIA</h2>
                 <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
                   <p className="text-2xl font-semibold text-gradient">
-                    ARTEVIA — Where Art Meets Vision.
+                    ARTEVIA - Where Art Meets Vision.
                   </p>
                   <p>
                     We're a new-age creative design studio crafting ideas that leave an impression.
@@ -617,7 +617,7 @@ function App() {
                     From logos, branding, and social media creatives to video editing, marketing campaigns, and print solutions, our work speaks innovation, clarity, and impact.
                   </p>
                   <p className="text-xl font-medium text-foreground">
-                    We don't just design — we create experiences that tell stories, build brands, and connect with audiences.
+                    We don't just design - we create experiences that tell stories, build brands, and connect with audiences.
                   </p>
                 </div>
               </div>
@@ -689,66 +689,20 @@ function App() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">Contact Us</h2>
+            <h2 className="text-5xl md:text-6xl font-bold mb-6">Inquiry Form</h2>
             <p className="text-xl text-foreground/70 max-w-3xl mx-auto leading-relaxed">
               We’d love to collaborate with you! Whether you need design, printing, or complete branding solutions, tell us about your requirements and our team will respond within 24 hours.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-10">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <Card className="glass-card p-10 h-full space-y-6">
-                <div>
-                  <h3 className="text-3xl font-semibold mb-2">Get in Touch</h3>
-                  <p className="text-foreground/70 leading-relaxed">
-                    Email us, give us a call, or drop a message — we’re always ready to bring your ideas to life.
-                  </p>
-                </div>
-
-                <div className="space-y-4 text-foreground/80">
-                  <div>
-                    <p className="font-medium text-foreground">Email</p>
-                    <a href="mailto:artevia.india@gmail.com" className="text-accent hover:underline">artevia.india@gmail.com</a>
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Phone</p>
-                    <p>{contactNumbers.join(' | ')}</p>
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Location</p>
-                    <p>Kolkata, India</p>
-                  </div>
-                  <div>
-                    <p className="font-medium text-foreground">Business Hours</p>
-                    <p>Mon–Sat | 10:00 AM – 7:00 PM</p>
-                  </div>
-                </div>
-
-                <Button asChild size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-                  <a href="mailto:artevia.india@gmail.com">Start a Project</a>
-                </Button>
-
-                <div className="rounded-2xl border border-accent/30 bg-accent/5 px-6 py-4 text-sm text-foreground/70">
-                  <p className="font-medium text-foreground mb-1">Note</p>
-                  <p>
-                    We deliver PAN India for printing & merchandise services. Minimum Order Quantity (MOQ) applies depending on order type.
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="max-w-4xl mx-auto"
+          >
+            <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
                 <Card className="glass-card relative overflow-hidden p-10 space-y-10">
                   <div className="pointer-events-none absolute inset-0">
                     <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-accent/12 blur-3xl" />
@@ -781,7 +735,7 @@ function App() {
                         <Label htmlFor="companyName">Company / Brand Name (optional)</Label>
                         <Input
                           id="companyName"
-                          placeholder="e.g. Artevia Studios"
+                          placeholder="e.g. Artevia"
                           className={inputClasses}
                           {...register('companyName')}
                         />
@@ -845,7 +799,7 @@ function App() {
                         <Label htmlFor="budget">Budget Range*</Label>
                         <Input
                           id="budget"
-                          placeholder="e.g. ₹25,000 - ₹50,000"
+                          placeholder="e.g. ₹5,000 - ₹50,000"
                           aria-invalid={errors.budget ? 'true' : 'false'}
                           className={inputClasses}
                           {...register('budget')}
@@ -921,7 +875,7 @@ function App() {
                       <Label htmlFor="requirement">Describe Your Requirement*</Label>
                       <Textarea
                         id="requirement"
-                        placeholder="Tell us about the project — e.g., brochure design, restaurant branding, event creatives, etc."
+                        placeholder="Tell us about the project - e.g., brochure design, restaurant branding, event creatives, etc."
                         rows={5}
                         aria-invalid={errors.requirement ? 'true' : 'false'}
                         className={textareaClasses}
@@ -955,8 +909,7 @@ function App() {
                   </div>
                 </Card>
               </form>
-            </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -990,43 +943,88 @@ function App() {
         </div>
       </section>
 
-      <footer className="py-12 px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <Card className="glass-card p-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
-                  <img src={arteviaLogo} alt="ARTEVIA" className="h-10 w-10 rounded-full object-contain" />
+      <footer id="footer" className="py-12 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <Card className="glass-card p-8 md:p-10 space-y-8">
+            <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:items-start">
+              <div className="space-y-5">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-semibold">Contact Us</h3>
+                  <p className="text-sm text-foreground/70">
+                    Email us, call us, or drop a message - we’re always ready to bring your ideas to life.
+                  </p>
                 </div>
-                <span className="text-2xl font-bold">Artevia</span>
+
+                <div className="rounded-xl border border-accent/25 bg-accent/5 px-5 py-3 text-sm text-foreground/70">
+                  <p className="font-medium text-foreground mb-1">Note</p>
+                  <p>
+                    Pan-India printing & merchandise delivery available. Minimum order quantity applies by order type.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-6">
+              <div className="space-y-5">
+                <div className="grid gap-4 text-sm text-foreground/80 md:grid-cols-2">
+                  <div className="space-y-1">
+                    <p className="font-medium text-foreground/90">Email</p>
+                    <a href="mailto:artevia.india@gmail.com" className="text-accent hover:underline">artevia.india@gmail.com</a>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-medium text-foreground/90">Phone</p>
+                    <p>{contactNumbers.join(' | ')}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-medium text-foreground/90">Location</p>
+                    <p>Kolkata, India</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-medium text-foreground/90">Business Hours</p>
+                    <p>Mon–Sat · 10:00 AM – 7:00 PM</p>
+                  </div>
+                  <div className="md:col-span-2 flex justify-center pt-2">
+                    <Button asChild size="lg" className="w-full px-8 bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                      <a href="mailto:artevia.india@gmail.com">Start a Project</a>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Separator className="bg-border" />
+
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-foreground/60">
+              <div className="flex items-center justify-center md:justify-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
+                  <img src={arteviaLogo} alt="ARTEVIA" className="h-8 w-8 rounded-full object-contain" />
+                </div>
+                <div className="text-center md:text-left">
+                  <p className="text-base font-semibold text-foreground">ARTEVIA</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-foreground/50">Where Art Meets Vision</p>
+                </div>
+              </div>
+              <p className="text-center md:flex-1">© 2025 ARTEVIA. Where Art Meets Vision.</p>
+              <div className="flex items-center justify-center md:justify-end gap-4">
                 {[
-                  { Icon: FacebookLogo, label: 'Facebook' },
-                  { Icon: InstagramLogo, label: 'Instagram' },
-                  { Icon: LinkedinLogo, label: 'LinkedIn' },
-                  { Icon: YoutubeLogo, label: 'YouTube' }
-                ].map(({ Icon, label }) => (
+                  { Icon: FacebookLogo, label: 'Facebook', url: 'https://www.facebook.com/share/15n7MUpraB/' },
+                  { Icon: InstagramLogo, label: 'Instagram', url: 'https://www.instagram.com/artevia.india?igsh=cHlhcXA2bTZibWxs' },
+                  { Icon: LinkedinLogo, label: 'LinkedIn', url: 'https://www.linkedin.com/in/artevia-india-122a8838b' },
+                  { Icon: YoutubeLogo, label: 'YouTube', url: 'https://www.youtube.com/@ArteviaIndia' }
+                ].map(({ Icon, label, url }) => (
                   <motion.a
                     key={label}
-                    href="#"
+                    href={url}
                     aria-label={label}
-                    whileHover={{ scale: 1.2, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-foreground/60 hover:text-accent transition-colors"
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="text-foreground/50 hover:text-accent transition-colors"
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                    <Icon size={28} weight="fill" />
+                    <Icon size={22} weight="fill" />
                   </motion.a>
                 ))}
               </div>
             </div>
-
-            <Separator className="my-6 bg-border" />
-
-            <p className="text-center text-foreground/60 text-sm">
-              © 2024 Artevia. Where Art Meets Vision.
-            </p>
           </Card>
         </div>
       </footer>
