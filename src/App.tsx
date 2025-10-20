@@ -28,6 +28,15 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>
 
+type TeamMember = {
+  name: string
+  role: string
+  description: string
+  gradient: string
+  image?: string
+  imagePosition?: string
+}
+
 function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -51,6 +60,61 @@ function App() {
     'Printed Materials (PAN India Delivery – MOQ applies)'
   ]
   const discoveryChannels = ['Instagram', 'Referral', 'Google', 'Returning Client', 'Other']
+  const coreTeamMembers: TeamMember[] = [
+    {
+      name: 'Krishu Shah',
+      role: 'Founder & Creative Visionary',
+      description: "The heart of ARTEVIA's creative direction — bringing imagination to life through design that inspires and connects.",
+      gradient: 'from-secondary to-accent',
+      image: '/static/img/krishu.JPG'
+    },
+    {
+      name: 'Raghav Jaiswal',
+      role: 'Chief Executive Officer (CEO)',
+      description: "The strategic mind behind ARTEVIA's growth — blending business insight and marketing leadership to drive brand success.",
+      gradient: 'from-accent to-primary',
+      image: '/static/img/raghav.jpg',
+      imagePosition: 'center 30%'
+    },
+    {
+      name: 'Atanu Pal',
+      role: 'Chief Technology Officer (CTO)',
+      description: 'The tech innovator ensuring every creative idea is backed by powerful digital execution and modern tools.',
+      gradient: 'from-primary to-secondary',
+      image: '/static/img/atanu.jpg'
+    }
+  ]
+  const extendedTeamMembers: TeamMember[] = [
+    {
+      name: 'Debargha Bhattacharjee',
+      role: 'Chief Technical Advisor',
+      description: 'Merging creativity with technology to keep ARTEVIA ahead of the curve.',
+      gradient: 'from-secondary to-primary',
+      image: '/static/img/Debargha.png'
+    },
+    {
+      name: 'Arnab Mondal',
+      role: 'Sales Intern',
+      description: 'A passionate communicator learning the art of turning ideas into collaborations and connections.',
+      gradient: 'from-accent to-secondary',
+      image: '/static/img/Arnab.jpeg'
+    },
+    {
+      name: 'Aniruddha Mukherjee',
+      role: 'Creative Intern',
+      description: 'Bringing imagination to life through bold visuals and creative precision.',
+      gradient: 'from-primary to-accent',
+      image: '/static/img/Aniruddha.jpeg'
+    },
+    {
+      name: 'Ishita Shaw',
+      role: 'Creative Intern',
+      description: 'Designing stories that speak, inspire, and leave a lasting impression.',
+      gradient: 'from-secondary to-accent',
+      image: '/static/img/Ishita.jpeg'
+    }
+  ]
+  const extendedTeamCount = extendedTeamMembers.length
   const fieldShellClasses =
     'w-full rounded-xl border border-white/12 bg-white/[0.08] px-4 text-base text-foreground/90 placeholder:text-foreground/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all focus-visible:border-accent focus-visible:ring-accent/25 focus-visible:ring-[3px] focus-visible:ring-offset-0 focus-visible:outline-none backdrop-blur-md'
   const inputClasses = `${fieldShellClasses} h-12`
@@ -189,6 +253,42 @@ function App() {
       discoveryChannel: ''
     }
   })
+
+  const renderTeamMemberCard = (member: TeamMember, index: number, baseDelay = 0) => (
+    <motion.div
+      key={member.name}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: baseDelay + index * 0.2 }}
+      whileHover={{ scale: 1.05 }}
+    >
+      <Card className="glass-card p-8 h-full hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300">
+        {member.image ? (
+          <div className="mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full border border-white/15 bg-background/40 shadow-lg">
+            <img
+              src={member.image}
+              alt={member.name}
+              className="h-full w-full object-cover"
+              style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
+            />
+          </div>
+        ) : (
+          <div className={`relative mx-auto mb-6 flex h-36 w-36 items-center justify-center rounded-full bg-gradient-to-br ${member.gradient} p-[6px]`}>
+            <div className="flex h-full w-full items-center justify-center rounded-full bg-background/90 text-3xl font-bold text-gradient">
+              {member.name.split(' ').map(n => n[0]).join('')}
+            </div>
+            <div className="absolute -bottom-3 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border border-white/20 bg-background/95 shadow-lg">
+              <img src={arteviaLogo} alt="ARTEVIA logo" className="h-9 w-9 object-contain" />
+            </div>
+          </div>
+        )}
+        <h3 className="text-2xl font-bold mb-2 text-center">{member.name}</h3>
+        <p className="text-accent font-medium text-center mb-4">{member.role}</p>
+        <p className="text-foreground/70 leading-relaxed text-center">{member.description}</p>
+      </Card>
+    </motion.div>
+  )
 
   const handleFormSubmit = async (values: ContactFormValues) => {
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
@@ -415,12 +515,15 @@ function App() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: 'Brand Identity', description: 'Logos and complete branding solutions that capture your essence' },
+              { title: 'Logo & Brand Identity', description: 'Logos and complete branding solutions that capture your essence' },
               { title: 'Social Media Creatives', description: 'Eye-catching content that drives engagement and growth' },
-              { title: 'Video Editing', description: 'Professional video production and post-production services' },
+              {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand.'},
+              { title: 'Video Editing & Thumbnails', description: 'Professional video production and post-production services' },
               { title: 'Marketing Campaigns', description: 'Strategic campaigns that connect and convert audiences' },
-              { title: 'Print Solutions', description: 'High-quality print designs from business cards to billboards' },
-              { title: 'Digital Strategy', description: 'Technology-driven approaches to amplify your brand presence' }
+              { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity.' },
+              { title: 'Custom Cards & Books', description: 'Elegant and personalized custom card and books for individuals and companies.' },
+              { title: 'Digital Strategy', description: 'Technology-driven approaches to amplify your brand presence' },
+              { title: 'Printing Solutions', description: 'High-quality printing solutions for banners, flex, ID cards, and more with perfect finish.' },
             ].map((service, index) => (
               <motion.div
                 key={service.title}
@@ -547,64 +650,32 @@ function App() {
             <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">MEET THE CORE TEAM</h2>
             
             <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  name: 'Krishu Shah',
-                  role: 'Founder & Creative Visionary',
-                  description: 'The heart of ARTEVIA\'s creative direction — bringing imagination to life through design that inspires and connects.',
-                  gradient: 'from-secondary to-accent',
-                  image: '/static/img/krishu.JPG'
-                },
-                {
-                  name: 'Raghav Jaiswal',
-                  role: 'Chief Executive Officer (CEO)',
-                  description: 'The strategic mind behind ARTEVIA\'s growth — blending business insight and marketing leadership to drive brand success.',
-                  gradient: 'from-accent to-primary',
-                  image: '/static/img/raghav.jpg',
-                  imagePosition: 'center 30%'
-                },
-                {
-                  name: 'Atanu Pal',
-                  role: 'Chief Technology Officer (CTO)',
-                  description: 'The tech innovator ensuring every creative idea is backed by powerful digital execution and modern tools.',
-                  gradient: 'from-primary to-secondary'
-                }
-              ].map((member, index) => (
-                <motion.div
-                  key={member.name}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.2 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Card className="glass-card p-8 h-full hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300">
-                    {member.image ? (
-                      <div className="mx-auto mb-6 h-36 w-36 overflow-hidden rounded-full border border-white/15 bg-background/40 shadow-lg">
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          className="h-full w-full object-cover"
-                          style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
-                        />
-                      </div>
-                    ) : (
-                      <div className={`relative mx-auto mb-6 flex h-36 w-36 items-center justify-center rounded-full bg-gradient-to-br ${member.gradient} p-[6px]`}>
-                        <div className="flex h-full w-full items-center justify-center rounded-full bg-background/90 text-3xl font-bold text-gradient">
-                          {member.name.split(' ').map(n => n[0]).join('')}
-                        </div>
-                        <div className="absolute -bottom-3 left-1/2 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full border border-white/20 bg-background/95 shadow-lg">
-                          <img src={arteviaLogo} alt="Artevia logo" className="h-9 w-9 object-contain" />
-                        </div>
-                      </div>
-                    )}
-                    <h3 className="text-2xl font-bold mb-2 text-center">{member.name}</h3>
-                    <p className="text-accent font-medium text-center mb-4">{member.role}</p>
-                    <p className="text-foreground/70 leading-relaxed text-center">{member.description}</p>
-                  </Card>
-                </motion.div>
-              ))}
+              {coreTeamMembers.map((member, index) => renderTeamMemberCard(member, index))}
             </div>
+
+            <Accordion type="single" collapsible className="mt-12">
+              <AccordionItem value="all-members" className="glass-card border border-white/8 rounded-2xl px-4 py-1">
+                <AccordionTrigger className="group flex items-center justify-between gap-6 rounded-full border border-accent/40 bg-accent/15 px-6 py-4 text-base font-semibold text-accent transition-all hover:border-accent/60 hover:bg-accent/25 hover:no-underline focus-visible:outline-none [&>svg]:hidden">
+                  <span className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full border border-accent/50 bg-accent/25 text-lg text-accent transition-transform group-data-[state=open]:rotate-45">
+                      +
+                    </span>
+                    <span className="tracking-wide">Meet the rest of Team ARTEVIA</span>
+                  </span>
+                  <span className="ml-auto flex items-center gap-3">
+                    <span className="inline-flex items-center rounded-full border border-accent/50 bg-accent/20 px-4 py-1 text-sm font-medium text-accent">
+                      {extendedTeamCount} members
+                    </span>
+                    <CaretDown className="h-5 w-5 text-accent transition-transform group-data-[state=open]:rotate-180" />
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="pt-6">
+                  <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {extendedTeamMembers.map((member, index) => renderTeamMemberCard(member, index, 0.1))}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </motion.div>
         </div>
       </section>
