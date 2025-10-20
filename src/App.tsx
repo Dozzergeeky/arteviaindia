@@ -559,36 +559,69 @@ function App() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: 'Brand Refresh 2024', category: 'Branding', color: 'from-secondary to-accent' },
-              { title: 'Social Campaign', category: 'Social Media', color: 'from-accent to-primary' },
-              { title: 'Product Launch Video', category: 'Video Production', color: 'from-primary to-secondary' },
-              { title: 'Print Collateral Suite', category: 'Print Design', color: 'from-secondary via-accent to-primary' },
-              { title: 'Digital Marketing', category: 'Strategy', color: 'from-primary to-accent' },
-              { title: 'Corporate Identity', category: 'Branding', color: 'from-accent to-secondary' }
-            ].map((project, index) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="group cursor-pointer"
-              >
-                <Card className="glass-card overflow-hidden h-full transition-all duration-300">
-                  <div className={`h-64 bg-gradient-to-br ${project.color} relative overflow-hidden`}>
-                    <div className="absolute inset-0 bg-background/10 backdrop-blur-sm" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Sparkle className="w-16 h-16 text-white/60 group-hover:scale-125 transition-transform duration-300" weight="fill" />
-                    </div>
+              { title: 'Promotional Reel', category: 'Branding', image: '/static/img/biriyani.jpg', url: 'https://www.instagram.com/p/DOU8dU5iUUi/' },
+              { title: 'Social Campaign', category: 'Social Media', image: '/static/img/pizza poster.png', gradient: 'from-accent to-primary' },
+              { title: 'Product Launch Video', category: 'Video Production', image: '/static/img/codepup-vid.png', gradient: 'from-primary to-secondary', url: 'https://youtu.be/-CNNE5YbLAo?si=ONkYuxsmc7UT27k-' },
+              { title: 'Printed T-Shirts', category: 'Print Design', image: '/static/img/codepup.png', gradient: 'from-secondary via-accent to-primary' },
+              { title: 'Digital Marketing', category: 'Strategy', image: '/static/img/bbq.jpeg', gradient: 'from-primary to-accent', url: 'https://youtube.com/shorts/GoL8CraqDeQ?si=YRA22tkdDaA7C2BC' },
+              { title: 'Corporate Identity', category: 'Branding',  image: '/static/img/business card.png' }
+            ].map((project, index) => {
+              const media = project.image ? (
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-background/20" />
+                </div>
+              ) : (
+                <div className={`h-64 bg-gradient-to-br ${project.gradient ?? 'from-secondary to-accent'} relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-background/10 backdrop-blur-sm" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Sparkle className="w-16 h-16 text-white/60 group-hover:scale-125 transition-transform duration-300" weight="fill" />
                   </div>
+                </div>
+              )
+
+              const cardContent = (
+                <>
+                  {media}
                   <div className="p-6">
                     <p className="text-sm text-accent font-medium mb-2">{project.category}</p>
                     <h3 className="text-xl font-semibold">{project.title}</h3>
                   </div>
-                </Card>
-              </motion.div>
-            ))}
+                </>
+              )
+
+              return (
+                <motion.div
+                  key={project.title}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -10 }}
+                  className="group cursor-pointer"
+                >
+                  <Card className="glass-card overflow-hidden h-full transition-all duration-300">
+                    {project.url ? (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${project.title} project link`}
+                        className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      >
+                        {cardContent}
+                      </a>
+                    ) : (
+                      cardContent
+                    )}
+                  </Card>
+                </motion.div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -630,8 +663,8 @@ function App() {
               >
                 <Card className="glass-card p-8 aspect-square flex items-center justify-center">
                   <div className="w-64 h-64 rounded-full bg-gradient-to-br from-secondary via-accent to-primary p-2 animate-float-slow glow-effect">
-                    <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
-                      <img src={arteviaLogo} alt="ARTEVIA logo" className="h-40 w-40 object-contain" />
+                    <div className="w-full h-full rounded-full bg-background flex items-center justify-center overflow-hidden">
+                      <img src={arteviaLogo} alt="ARTEVIA logo" className="h-full w-full object-cover" />
                     </div>
                   </div>
                 </Card>
