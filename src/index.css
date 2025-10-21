@@ -135,6 +135,7 @@
 
 .glass-nav {
   background: var(--card);
+  background: color-mix(in oklch, var(--card) 60%, transparent);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border-bottom: 1px solid var(--glass-border);

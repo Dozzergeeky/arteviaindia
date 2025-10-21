@@ -583,10 +583,10 @@ function App() {
               {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand.'},
               { title: 'Video Editing & Thumbnails', description: 'Professional video production and post-production services' },
               { title: 'Marketing Campaigns', description: 'Strategic campaigns that connect and convert audiences' },
-              { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity.' },
-              { title: 'Custom Cards & Books', description: 'Elegant and personalized custom card and books for individuals and companies.' },
+              { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity' },
+              { title: 'Custom Cards & Books', description: 'Elegant and personalized custom card and books for individuals and companies' },
               { title: 'Digital Strategy', description: 'Technology-driven approaches to amplify your brand presence' },
-              { title: 'Printing Solutions', description: 'High-quality printing solutions for banners, flex, ID cards, and more with perfect finish.' },
+              { title: 'Printing Solutions', description: 'High-quality printing solutions for banners, flex, ID cards, and more with perfect finish' },
             ].map((service, index) => (
               <motion.div
                 key={service.title}
@@ -1098,7 +1098,7 @@ function App() {
                   <p className="text-xs uppercase tracking-[0.2em] text-foreground/50">Where Art Meets Vision</p>
                 </div>
               </div>
-              <p className="text-center md:flex-1">© 2025 ARTEVIA. Where Art Meets Vision.</p>
+              <p className="text-center md:flex-1">© 2025 ARTEVIA</p>
               <div className="flex items-center justify-center md:justify-end gap-4">
                 {[
                   { Icon: FacebookLogo, label: 'Facebook', url: 'https://www.facebook.com/share/15n7MUpraB/' },
