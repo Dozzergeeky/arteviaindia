@@ -1040,7 +1040,7 @@ function App() {
                 {[
                   { Icon: FacebookLogo, label: 'Facebook', url: 'https://www.facebook.com/share/15n7MUpraB/' },
                   { Icon: InstagramLogo, label: 'Instagram', url: 'https://www.instagram.com/artevia.india?igsh=cHlhcXA2bTZibWxs' },
-                  { Icon: LinkedinLogo, label: 'LinkedIn', url: 'https://www.linkedin.com/in/artevia-india-122a8838b' },
+                  { Icon: LinkedinLogo, label: 'LinkedIn', url: 'https://www.linkedin.com/company/artevia-india/' },
                   { Icon: YoutubeLogo, label: 'YouTube', url: 'https://www.youtube.com/@ArteviaIndia' }
                 ].map(({ Icon, label, url }) => (
                   <motion.a
