@@ -11,7 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { FacebookLogo, InstagramLogo, LinkedinLogo, YoutubeLogo, Sparkle, CaretDown } from '@phosphor-icons/react'
+import { FacebookLogo, InstagramLogo, LinkedinLogo, YoutubeLogo, Sparkle, CaretDown, List, X } from '@phosphor-icons/react'
 
 const contactFormSchema = z.object({
   fullName: z.string().min(2, 'Please enter your full name.'),
@@ -41,12 +41,21 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { scrollY } = useScroll()
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
   const heroScale = useTransform(scrollY, [0, 300], [1, 0.95])
 
   const arteviaLogo = '/static/img/artevia-logo.png'
   const contactNumbers = ['+91 70030 80422', '+91 94337 11367', '+91 83485 25053']
+  const navItems = [
+    { id: 'home', label: 'Home Page' },
+    { id: 'services', label: 'Our Services' },
+    { id: 'work', label: 'Our Work' },
+    { id: 'about', label: 'About Us' },
+    { id: 'contact', label: 'Inquiry Form' },
+    { id: 'faq', label: 'FAQ' }
+  ] as const
   const serviceTypes = [
     'Branding & Identity Design',
     'Social Media Design',
@@ -353,7 +362,26 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const scrollToSection = (sectionId: string) => {
+    setIsMobileMenuOpen(false)
     const element = document.getElementById(sectionId)
     if (element) {
       const offset = 80
@@ -370,7 +398,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-6 py-4 relative">
           <div className="flex items-center justify-between">
             <motion.div 
               className="flex items-center gap-3"
@@ -383,40 +411,75 @@ function App() {
               <span className="text-xl font-bold">ARTEVIA</span>
             </motion.div>
 
-            <div className="hidden md:flex items-center gap-8">
-              {[
-                { id: 'home', label: 'Home Page' },
-                { id: 'services', label: 'Our Services' },
-                { id: 'work', label: 'Our Work' },
-                { id: 'about', label: 'About Us' },
-                { id: 'contact', label: 'Inquiry Form' },
-                { id: 'faq', label: 'FAQ' }
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-all hover:text-accent relative ${
-                    activeSection === item.id ? 'text-accent' : 'text-foreground/80'
-                  }`}
+            <div className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-8">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`text-sm font-medium transition-all hover:text-accent relative ${
+                      activeSection === item.id ? 'text-accent' : 'text-foreground/80'
+                    }`}
+                  >
+                    {item.label}
+                    {activeSection === item.id && (
+                      <motion.div
+                        layoutId="activeNav"
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </button>
+                ))}
+                <Button 
+                  onClick={() => scrollToSection('footer')}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium shadow-lg shadow-accent/20"
                 >
-                  {item.label}
-                  {activeSection === item.id && (
-                    <motion.div
-                      layoutId="activeNav"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </button>
-              ))}
-              <Button 
-                onClick={() => scrollToSection('footer')}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-medium shadow-lg shadow-accent/20"
+                  Contact Us
+                </Button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(prev => !prev)}
+                className="md:hidden inline-flex items-center justify-center rounded-full border border-white/15 bg-background/60 p-2 text-foreground transition hover:border-accent/50 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={isMobileMenuOpen}
               >
-                Contact Us
-              </Button>
+                {isMobileMenuOpen ? <X size={22} weight="bold" /> : <List size={22} weight="bold" />}
+              </button>
             </div>
           </div>
+
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="md:hidden absolute left-0 right-0 top-full mt-3 overflow-hidden rounded-2xl border border-white/15 bg-background/95 shadow-2xl backdrop-blur-xl"
+            >
+              <div className="px-6 py-5 space-y-4">
+                {navItems.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`flex w-full items-center justify-between rounded-xl border border-transparent px-4 py-3 text-base font-medium transition hover:border-accent/40 hover:bg-accent/10 ${
+                      activeSection === item.id ? 'text-accent' : 'text-foreground/80'
+                    }`}
+                  >
+                    {item.label}
+                    {activeSection === item.id && <span className="h-2 w-2 rounded-full bg-accent" />}
+                  </button>
+                ))}
+                <Button
+                  onClick={() => scrollToSection('footer')}
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30"
+                >
+                  Contact Us
+                </Button>
+              </div>
+            </motion.div>
+          )}
         </div>
       </nav>
 
