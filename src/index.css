@@ -124,10 +124,9 @@
 }
 
 .glass-card {
+  @apply backdrop-blur-2xl;
   background: rgba(12, 16, 32, 0.55);
   background: var(--card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   box-shadow: 
     0 8px 32px 0 rgba(0, 0, 0, 0.37),
@@ -135,11 +134,10 @@
 }
 
 .glass-nav {
+  @apply backdrop-blur-2xl;
   background: rgba(9, 12, 28, 0.65);
   background: var(--card);
   background: color-mix(in oklch, var(--card) 60%, transparent);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
   border-bottom: 1px solid var(--glass-border);
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.2);
 }
