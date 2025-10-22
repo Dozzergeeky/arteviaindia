@@ -73,14 +73,14 @@ function App() {
     {
       name: 'Krishu Shah',
       role: 'Founder & Creative Visionary',
-      description: "The heart of ARTEVIA's creative direction - bringing imagination to life through design that inspires and connects.",
+      description: "The heart of ARTEVIA's creative direction, bringing imagination to life through design that inspires and connects.",
       gradient: 'from-secondary to-accent',
       image: '/static/img/krishu.JPG'
     },
     {
       name: 'Raghav Jaiswal',
       role: 'Chief Executive Officer (CEO)',
-      description: "The strategic mind behind ARTEVIA's growth - blending business insight and marketing leadership to drive brand success.",
+      description: "The strategic mind behind ARTEVIA's growth, blending business insight and marketing leadership to drive brand success.",
       gradient: 'from-accent to-primary',
       image: '/static/img/raghav.jpg',
       imagePosition: 'center 30%'
@@ -580,7 +580,7 @@ function App() {
             {[
               { title: 'Logo & Brand Identity', description: 'Logos and complete branding solutions that capture your essence' },
               { title: 'Social Media Creatives', description: 'Eye-catching content that drives engagement and growth' },
-              {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand.'},
+              {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand'},
               { title: 'Video Editing & Thumbnails', description: 'Professional video production and post-production services' },
               { title: 'Marketing Campaigns', description: 'Strategic campaigns that connect and convert audiences' },
               { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity' },
