@@ -1088,18 +1088,18 @@ function App() {
 
             <Separator className="bg-border" />
 
-            <div className="flex flex-col items-center gap-4 text-sm text-foreground/60">
-              <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-foreground/60">
+              <div className="flex items-center justify-center md:justify-start gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
                   <img src={arteviaLogo} alt="ARTEVIA" className="h-8 w-8 rounded-full object-contain" />
                 </div>
-                <div className="text-center">
+                <div className="text-center md:text-left">
                   <p className="text-base font-semibold text-foreground">ARTEVIA</p>
                   <p className="text-xs uppercase tracking-[0.2em] text-foreground/50">Where Art Meets Vision</p>
                 </div>
               </div>
-              <p className="text-center">© 2025 ARTEVIA</p>
-              <div className="flex items-center justify-center gap-4">
+              <p className="text-center md:flex-1">© 2025 ARTEVIA</p>
+              <div className="flex items-center justify-center md:justify-end gap-4">
                 {[
                   { Icon: FacebookLogo, label: 'Facebook', url: 'https://www.facebook.com/share/15n7MUpraB/' },
                   { Icon: InstagramLogo, label: 'Instagram', url: 'https://www.instagram.com/artevia.india?igsh=cHlhcXA2bTZibWxs' },
