@@ -124,6 +124,7 @@
 }
 
 .glass-card {
+  background: rgba(12, 16, 32, 0.55);
   background: var(--card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -134,12 +135,30 @@
 }
 
 .glass-nav {
+  background: rgba(9, 12, 28, 0.65);
   background: var(--card);
   background: color-mix(in oklch, var(--card) 60%, transparent);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border-bottom: 1px solid var(--glass-border);
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.2);
+}
+
+@supports not (color: oklch(0.98 0 0 / 0.1)) {
+  .glass-card {
+    background: rgba(12, 16, 32, 0.55);
+  }
+
+  .glass-nav {
+    background: rgba(9, 12, 28, 0.65);
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-card,
+  .glass-nav {
+    background: rgba(9, 12, 28, 0.85);
+  }
 }
 
 .animate-float {
