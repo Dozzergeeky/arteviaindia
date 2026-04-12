@@ -637,6 +637,19 @@ function App() {
               )
             })}
           </div>
+
+          <div className="mt-10 flex justify-center">
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">
+              <a
+                href="https://drive.google.com/drive/folders/18jbnrsnQGm5_r47yD4hLcGTYjaxI2y9x?usp=sharing"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="View more ARTEVIA works on Google Drive"
+              >
+                More Works
+              </a>
+            </Button>
+          </div>
         </div>
       </section>
 
