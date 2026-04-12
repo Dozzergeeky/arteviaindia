@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { FacebookLogo, InstagramLogo, LinkedinLogo, YoutubeLogo, Sparkle, CaretDown, List, X } from '@phosphor-icons/react'
+import EventsPage from '@/pages/EventsPage'
 
 const contactFormSchema = z.object({
   fullName: z.string().min(2, 'Please enter your full name.'),
@@ -38,6 +39,7 @@ type TeamMember = {
 }
 
 function App() {
+  const [currentPath, setCurrentPath] = useState(() => window.location.pathname)
   const [activeSection, setActiveSection] = useState('home')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -340,6 +342,10 @@ function App() {
 
 
   useEffect(() => {
+    if (currentPath !== '/') {
+      return
+    }
+
     const handleScroll = () => {
       const sections = ['home', 'work', 'services', 'about', 'contact', 'faq']
       const current = sections.find(section => {
@@ -355,7 +361,7 @@ function App() {
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [currentPath])
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
@@ -390,6 +396,49 @@ function App() {
     }
   }
 
+  const navigateTo = (path: string) => {
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path)
+      setCurrentPath(path)
+      window.scrollTo({ top: 0, behavior: 'auto' })
+    }
+    setIsMobileMenuOpen(false)
+  }
+
+  useEffect(() => {
+    const handlePopState = () => setCurrentPath(window.location.pathname)
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  useEffect(() => {
+    if (currentPath === '/events') {
+      return
+    }
+
+    document.title = 'ARTEVIA | Where Art Meets Vision'
+
+    const description = 'ARTEVIA is a creative design studio for branding, social media, printing, campaigns, and digital content.'
+    let descriptionMeta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
+    if (!descriptionMeta) {
+      descriptionMeta = document.createElement('meta')
+      descriptionMeta.name = 'description'
+      document.head.appendChild(descriptionMeta)
+    }
+    descriptionMeta.content = description
+  }, [currentPath])
+
+  if (currentPath === '/events') {
+    return (
+      <EventsPage
+        arteviaLogo={arteviaLogo}
+        contactNumber={contactNumbers[0]}
+        onNavigateHome={() => navigateTo('/')}
+      />
+    )
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
@@ -408,6 +457,12 @@ function App() {
 
             <div className="flex items-center gap-4">
               <div className="hidden md:flex items-center gap-8">
+                <button
+                  onClick={() => navigateTo('/events')}
+                  className="text-sm font-medium transition-all hover:text-accent relative text-foreground/80"
+                >
+                  Events
+                </button>
                 {navItems.map((item) => (
                   <button
                     key={item.id}
@@ -454,6 +509,12 @@ function App() {
               className="md:hidden absolute left-0 right-0 top-full mt-3 overflow-hidden rounded-2xl border border-white/15 bg-background/95 shadow-2xl backdrop-blur-xl"
             >
               <div className="px-6 py-5 space-y-4">
+                <button
+                  onClick={() => navigateTo('/events')}
+                  className="flex w-full items-center justify-between rounded-xl border border-transparent px-4 py-3 text-base font-medium transition hover:border-accent/40 hover:bg-accent/10 text-foreground/80"
+                >
+                  Events
+                </button>
                 {navItems.map(item => (
                   <button
                     key={item.id}
@@ -544,6 +605,7 @@ function App() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="flex flex-wrap items-center justify-center gap-4"
           >
             <Button 
               onClick={() => scrollToSection('work')}
@@ -551,6 +613,14 @@ function App() {
               className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg px-8 py-6 rounded-2xl shadow-2xl shadow-accent/30 transition-all hover:scale-105"
             >
               Explore Our Work
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => navigateTo('/events')}
+              className="font-semibold text-lg px-8 py-6 rounded-2xl"
+            >
+              Explore Events
             </Button>
           </motion.div>
         </motion.div>
@@ -693,6 +763,12 @@ function App() {
                 </Card>
               </motion.div>
             ))}
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Button onClick={() => navigateTo('/events')} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">
+              Explore Event Photography & Videography
+            </Button>
           </div>
         </div>
       </section>
