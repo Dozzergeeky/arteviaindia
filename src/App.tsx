@@ -47,11 +47,11 @@ function App() {
   const heroScale = useTransform(scrollY, [0, 300], [1, 0.95])
 
   const arteviaLogo = '/static/img/artevia-logo.png'
-  const contactNumbers = ['+91 70030 80422', '+91 94337 11367', '+91 83485 25053']
+  const contactNumbers = ['+91 79804 77189']
   const navItems = [
     { id: 'home', label: 'Home Page' },
-    { id: 'services', label: 'Our Services' },
     { id: 'work', label: 'Our Work' },
+    { id: 'services', label: 'Our Services' },
     { id: 'about', label: 'About Us' },
     { id: 'contact', label: 'Inquiry Form' },
     { id: 'faq', label: 'FAQ' }
@@ -61,6 +61,8 @@ function App() {
     'Social Media Design',
     'Printing & Packaging',
     'Event / Campaign Design',
+    'Video Editing',
+    'Web & App Design',
     'Merchandise & Custom Orders',
     'Others (please specify)'
   ]
@@ -78,29 +80,22 @@ function App() {
       image: '/static/img/krishu.JPG'
     },
     {
-      name: 'Raghav Jaiswal',
-      role: 'Chief Executive Officer (CEO)',
-      description: "The strategic mind behind ARTEVIA's growth, blending business insight and marketing leadership to drive brand success.",
-      gradient: 'from-accent to-primary',
-      image: '/static/img/raghav.jpg',
-      imagePosition: 'center 30%'
-    },
-    {
       name: 'Atanu Pal',
       role: 'Chief Technology Officer (CTO)',
       description: 'The tech innovator ensuring every creative idea is backed by powerful digital execution and modern tools.',
       gradient: 'from-primary to-secondary',
       image: '/static/img/atanu.jpg'
-    }
-  ]
-  const extendedTeamMembers: TeamMember[] = [
+    },
     {
       name: 'Debargha Bhattacharjee',
       role: 'Chief Technical Advisor',
       description: 'Merging creativity with technology to keep ARTEVIA ahead of the curve.',
       gradient: 'from-secondary to-primary',
       image: '/static/img/Debargha.png'
-    },
+    }
+  ]
+  const extendedTeamMembers: TeamMember[] = [
+    
     {
       name: 'Arnab Mondal',
       role: 'Sales Intern',
@@ -346,7 +341,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'services', 'work', 'about', 'contact', 'faq']
+      const sections = ['home', 'work', 'services', 'about', 'contact', 'faq']
       const current = sections.find(section => {
         const element = document.getElementById(section)
         if (element) {
@@ -561,50 +556,6 @@ function App() {
         </motion.div>
       </section>
 
-      <section id="services" className="py-24 px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">Our Services</h2>
-            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-              Comprehensive creative solutions for modern brands
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: 'Logo & Brand Identity', description: 'Logos and complete branding solutions that capture your essence' },
-              { title: 'Social Media Creatives', description: 'Eye-catching content that drives engagement and growth' },
-              {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand'},
-              { title: 'Video Editing & Thumbnails', description: 'Professional video production and post-production services' },
-              { title: 'Marketing Campaigns', description: 'Strategic campaigns that connect and convert audiences' },
-              { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity' },
-              { title: 'Custom Cards & Books', description: 'Elegant and personalized custom card and books for individuals and companies' },
-              { title: 'Digital Strategy', description: 'Technology-driven approaches to amplify your brand presence' },
-              { title: 'Printing Solutions', description: 'High-quality printing solutions for banners, flex, ID cards, and more with perfect finish' },
-            ].map((service, index) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="glass-card p-8 h-full hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/10">
-                  <h3 className="text-2xl font-semibold mb-4 text-gradient">{service.title}</h3>
-                  <p className="text-foreground/70 leading-relaxed">{service.description}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="work" className="py-24 px-6 relative">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -685,6 +636,50 @@ function App() {
                 </motion.div>
               )
             })}
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="py-24 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-bold mb-6">Our Services</h2>
+            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+              Comprehensive creative solutions for modern brands
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { title: 'Logo & Brand Identity', description: 'Logos and complete branding solutions that capture your essence' },
+              { title: 'Social Media Creatives', description: 'Eye-catching content that drives engagement and growth' },
+              {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand'},
+              { title: 'Video Editing & Thumbnails', description: 'Professional video production and post-production services' },
+              { title: 'Marketing Campaigns', description: 'Strategic campaigns that connect and convert audiences' },
+              { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity' },
+              { title: 'Custom Cards & Books', description: 'Elegant and personalized custom card and books for individuals and companies' },
+              { title: 'Digital Strategy', description: 'Technology-driven approaches to amplify your brand presence' },
+              { title: 'Printing Solutions', description: 'High-quality printing solutions for banners, flex, ID cards, and more with perfect finish' },
+            ].map((service, index) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <Card className="glass-card p-8 h-full hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-accent/10">
+                  <h3 className="text-2xl font-semibold mb-4 text-gradient">{service.title}</h3>
+                  <p className="text-foreground/70 leading-relaxed">{service.description}</p>
+                </Card>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -857,7 +852,7 @@ function App() {
                         <Label htmlFor="phone">Phone Number (Preferably WhatsApp)*</Label>
                         <Input
                           id="phone"
-                          placeholder="e.g. +91 70030 80422"
+                          placeholder="e.g. +91 79804 77189"
                           aria-invalid={errors.phone ? 'true' : 'false'}
                           className={inputClasses}
                           {...register('phone')}
