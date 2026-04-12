@@ -112,7 +112,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
             <div className="w-11 h-11 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
               <img src={arteviaLogo} alt="ARTEVIA" className="h-9 w-9 rounded-full object-contain" />
             </div>
-            <span className="text-lg font-bold">ARTEVIA Events</span>
+            <span className="text-lg font-bold">ARTEVIA EVENTS</span>
           </button>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={onNavigateHome}>Home</Button>
@@ -135,7 +135,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
             <p className="text-sm uppercase tracking-[0.18em] text-accent font-semibold">Pan India Event Coverage with Creative Excellence</p>
             <div className="glass-card rounded-[2rem] px-8 py-12 md:px-14 md:py-16">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
-                Professional Event Photography & <span className="text-gradient">Videography</span> Services Across India
+                Professional Event <span className="text-gradient">Photography & Videography</span> Services Across India
               </h1>
               <p className="text-xl text-foreground/75 mt-5">From personal celebrations to brand experiences — we capture it all.</p>
               <p className="text-lg text-foreground/70 max-w-4xl mx-auto mt-5 leading-relaxed">

@@ -539,6 +539,26 @@ function App() {
         </div>
       </nav>
 
+      <div className="px-6 pt-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="glass-card flex flex-col gap-3 rounded-2xl border border-accent/30 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <p className="text-sm sm:text-base font-medium text-foreground/90">
+              <span className="inline-flex items-center gap-2 mr-2 align-middle">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse" />
+                <span className="text-[0.72rem] font-bold tracking-[0.18em] text-red-400">LIVE</span>
+              </span>
+              <span className="text-gradient font-semibold">ARTEVIA EVENTS</span> is live.
+            </p>
+            <Button
+              onClick={() => navigateTo('/events')}
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30"
+            >
+              Explore Events
+            </Button>
+          </div>
+        </div>
+      </div>
+
       <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-10 w-96 h-96 bg-primary/30 rounded-full blur-3xl animate-glow" />
