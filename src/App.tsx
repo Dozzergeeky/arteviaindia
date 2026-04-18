@@ -109,21 +109,21 @@ function App() {
     {
       name: 'Abhilash Palit',
       role: 'Graphics Intern',
-      description: 'Creating compelling visual concepts and design assets with clarity, creativity, and impact.',
+      description: 'Bringing ideas to life with visually striking and creative designs.',
       gradient: 'from-secondary to-primary',
       image: '/static/img/Abhilash.jpg'
     },
     {
       name: 'Aniruddha Mukherjee',
       role: 'Video Editing Intern',
-      description: 'Bringing imagination to life through bold visuals and creative precision.',
+      description: 'Turning raw footage into engaging experiences that capture attention.',
       gradient: 'from-primary to-accent',
       image: '/static/img/Aniruddha.jpeg'
     },
     {
       name: 'Ishita Shaw',
       role: 'Video Editing Intern',
-      description: 'Designing stories that speak, inspire, and leave a lasting impression.',
+      description: 'Crafting compelling stories through seamless edits and cinematic visuals.',
       gradient: 'from-secondary to-accent',
       image: '/static/img/Ishita.jpeg'
     }
