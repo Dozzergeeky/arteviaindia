@@ -26,6 +26,7 @@ type PortfolioItem = {
 
 type EventLeadValues = {
   name: string
+  email: string
   phone: string
   eventType: string
   location: string
@@ -125,6 +126,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
     const body = encodeURIComponent(
       [
         `Name: ${values.name}`,
+        `Email: ${values.email}`,
         `Phone: ${values.phone}`,
         `Event Type: ${values.eventType}`,
         `Location: ${values.location}`,
@@ -148,6 +150,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
 
     const leadValues: EventLeadValues = {
       name: value('name'),
+      email: value('email'),
       phone: value('phone'),
       eventType: value('eventType'),
       location: value('location'),
@@ -157,7 +160,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
     }
 
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateId = import.meta.env.VITE_EMAILJS_EVENTS_TEMPLATE_ID || import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
     const hasPlaceholderConfig = [serviceId, templateId, publicKey].some(config => !config || String(config).startsWith('your_'))
 
@@ -184,13 +187,12 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
             {
               full_name: leadValues.name,
               company_name: 'N/A',
-              email: 'N/A',
+              email: leadValues.email,
               phone: leadValues.phone,
-              service_type: `Event Lead - ${leadValues.eventType}`,
+              service_type: leadValues.eventType,
               requirement: [
                 `Location: ${leadValues.location}`,
                 `Date: ${leadValues.date}`,
-                `Budget: ${leadValues.budget}`,
                 `Additional Notes: ${leadValues.notes || 'N/A'}`
               ].join('\n'),
               budget: leadValues.budget,
@@ -544,9 +546,10 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
               <form className="relative grid gap-4" onSubmit={handleEventLeadSubmit}>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2"><Label htmlFor="name">Name</Label><Input id="name" name="name" className={inputClasses} required /></div>
-                  <div className="space-y-2"><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" className={inputClasses} required /></div>
+                  <div className="space-y-2"><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" className={inputClasses} required /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2"><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" className={inputClasses} required /></div>
                   <div className="space-y-2">
                     <Label htmlFor="eventType">Event Type</Label>
                     <select id="eventType" name="eventType" className={selectClasses} defaultValue="" required>
@@ -560,12 +563,12 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
                       ))}
                     </select>
                   </div>
-                  <div className="space-y-2"><Label htmlFor="location">Location</Label><Input id="location" name="location" className={inputClasses} required /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2"><Label htmlFor="location">Location</Label><Input id="location" name="location" className={inputClasses} required /></div>
                   <div className="space-y-2"><Label htmlFor="date">Date</Label><Input id="date" name="date" className={inputClasses} type="date" required /></div>
-                  <div className="space-y-2"><Label htmlFor="budget">Budget</Label><Input id="budget" name="budget" className={inputClasses} required /></div>
                 </div>
+                <div className="space-y-2"><Label htmlFor="budget">Budget</Label><Input id="budget" name="budget" className={inputClasses} required /></div>
                 <div className="space-y-2"><Label htmlFor="notes">Additional Notes</Label><Textarea id="notes" name="notes" className={textareaClasses} rows={4} /></div>
                 <Button
                   type="submit"
