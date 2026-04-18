@@ -454,14 +454,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
               </div>
             )}
 
-            {filteredItems.length === 0 ? (
-              <Card className="glass-card border-dashed p-10 text-center">
-                <p className="text-lg font-semibold">Portfolio coming soon</p>
-                <p className="mt-2 text-foreground/70">
-                  We are currently curating our latest event and product shoot showcases.
-                </p>
-              </Card>
-            ) : (
+            {filteredItems.length > 0 && (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredItems.map(item => (
                   <button
@@ -609,7 +602,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
                   </div>
                   <div>
                     <p className="text-base font-semibold text-foreground">ARTEVIA EVENTS</p>
-                    <p className="text-xs uppercase tracking-[0.2em] text-foreground/55">Capture Every Story</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-foreground/55">CAPTURING EVERY MOMENT</p>
                   </div>
                 </div>
                 <p className="text-sm text-foreground/70">
@@ -621,19 +614,19 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button asChild variant="outline" className="w-full sm:w-auto">
                   <a href={eventsInstagramUrl} target="_blank" rel="noreferrer">
-                    Instagram @artevia.events
+                    Follow us on Instagram
                   </a>
                 </Button>
                 <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
                   <a href={eventsPortfolioDriveUrl} target="_blank" rel="noreferrer">
-                    Drive Portfolio
+                    Portfolio
                   </a>
                 </Button>
               </div>
             </div>
 
             <div className="mt-6 border-t border-border/70 pt-4 text-center text-sm text-foreground/60">
-              © {new Date().getFullYear()} ARTEVIA Events
+              © {new Date().getFullYear()} ARTEVIA EVENTS
             </div>
           </Card>
         </div>
