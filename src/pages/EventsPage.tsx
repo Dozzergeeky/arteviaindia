@@ -54,7 +54,7 @@ const faqItems = [
 
 const eventsInstagramUrl = 'https://www.instagram.com/artevia.events/?utm_source=ig_web_button_share_sheet'
 const eventsPortfolioDriveUrl = 'https://drive.google.com/drive/folders/1nrNYvYizAyYiZVVXt8wvabsE5rvN582E?usp=sharing'
-const eventTypeOptions = ['Wedding', 'Pre-Wedding', 'Reception', 'Engagement', 'Others']
+const eventTypeOptions = ['Wedding Event', 'Personal Event', 'Corporate Event', 'Commercial Shoot', 'Others']
 
 function ensureMeta(name: string, content: string) {
   let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
@@ -612,12 +612,12 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button asChild variant="outline" className="w-full sm:w-auto">
+                <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
                   <a href={eventsInstagramUrl} target="_blank" rel="noreferrer">
                     Follow us on Instagram
                   </a>
                 </Button>
-                <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                <Button asChild variant="outline" className="w-full sm:w-auto">
                   <a href={eventsPortfolioDriveUrl} target="_blank" rel="noreferrer">
                     Portfolio
                   </a>
