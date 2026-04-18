@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import emailjs from '@emailjs/browser'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -21,6 +22,16 @@ type PortfolioItem = {
   type: 'image' | 'video'
   src: string
   poster?: string
+}
+
+type EventLeadValues = {
+  name: string
+  phone: string
+  eventType: string
+  location: string
+  date: string
+  budget: string
+  notes: string
 }
 
 const portfolioItems: PortfolioItem[] = []
@@ -53,7 +64,10 @@ function ensureMeta(name: string, content: string) {
 function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPageProps) {
   const [activeFilter, setActiveFilter] = useState<PortfolioFilter>('all')
   const [activeItem, setActiveItem] = useState<PortfolioItem | null>(null)
-  const [submitted, setSubmitted] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [fallbackMailtoUrl, setFallbackMailtoUrl] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const fieldShellClasses =
     'w-full rounded-xl border border-white/12 bg-white/[0.08] px-4 text-base text-foreground/90 placeholder:text-foreground/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all focus-visible:border-accent focus-visible:ring-accent/25 focus-visible:ring-[3px] focus-visible:ring-offset-0 focus-visible:outline-none backdrop-blur-md'
   const inputClasses = `${fieldShellClasses} h-12`
@@ -99,6 +113,127 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
         text: item.a
       }
     }))
+  }
+
+  const buildFallbackMailto = (values: EventLeadValues) => {
+    const subject = encodeURIComponent(`New Event Lead - ${values.eventType}`)
+    const body = encodeURIComponent(
+      [
+        `Name: ${values.name}`,
+        `Phone: ${values.phone}`,
+        `Event Type: ${values.eventType}`,
+        `Location: ${values.location}`,
+        `Date: ${values.date}`,
+        `Budget: ${values.budget}`,
+        '',
+        'Additional Notes:',
+        values.notes || 'N/A'
+      ].join('\n')
+    )
+
+    return `mailto:artevia.india@gmail.com?subject=${subject}&body=${body}`
+  }
+
+  const handleEventLeadSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    const value = (key: string) => String(formData.get(key) || '').trim()
+
+    const leadValues: EventLeadValues = {
+      name: value('name'),
+      phone: value('phone'),
+      eventType: value('eventType'),
+      location: value('location'),
+      date: value('date'),
+      budget: value('budget'),
+      notes: value('notes')
+    }
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+    const templateId = import.meta.env.VITE_EMAILJS_EVENTS_TEMPLATE_ID || import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    const hasPlaceholderConfig = [serviceId, templateId, publicKey].some(config => !config || String(config).startsWith('your_'))
+
+    setFallbackMailtoUrl(buildFallbackMailto(leadValues))
+
+    if (hasPlaceholderConfig) {
+      setSubmitStatus('error')
+      setSubmitError('Email service is not configured. Add real EmailJS keys in `.env` (not placeholder values).')
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    setSubmitError(null)
+
+    try {
+      let lastError: unknown
+
+      for (let attempt = 1; attempt <= 2; attempt += 1) {
+        try {
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              full_name: leadValues.name,
+              company_name: 'N/A',
+              email: 'N/A',
+              phone: leadValues.phone,
+              service_type: `Event Lead - ${leadValues.eventType}`,
+              requirement: [
+                `Location: ${leadValues.location}`,
+                `Date: ${leadValues.date}`,
+                `Budget: ${leadValues.budget}`,
+                `Additional Notes: ${leadValues.notes || 'N/A'}`
+              ].join('\n'),
+              budget: leadValues.budget,
+              timeline: leadValues.date,
+              delivery_mode: leadValues.location,
+              discovery_channel: 'Events Page',
+              event_type: leadValues.eventType,
+              event_location: leadValues.location,
+              event_date: leadValues.date,
+              notes: leadValues.notes || 'N/A'
+            },
+            {
+              publicKey
+            }
+          )
+
+          lastError = null
+          break
+        } catch (error) {
+          lastError = error
+          if (attempt < 2) {
+            await new Promise(resolve => window.setTimeout(resolve, 700))
+          }
+        }
+      }
+
+      if (lastError) {
+        throw lastError
+      }
+
+      setSubmitStatus('success')
+      setFallbackMailtoUrl(null)
+      form.reset()
+    } catch (error) {
+      console.error('Event lead EmailJS error:', error)
+      const emailError = error as { status?: number; text?: string; message?: string }
+      const issueText = `${emailError?.text || ''} ${emailError?.message || ''}`.toLowerCase()
+
+      setSubmitStatus('error')
+
+      if (issueText.includes('service') || emailError?.status === 503) {
+        setSubmitError('Email service is temporarily unstable. Please use the fallback email button below while we restore delivery.')
+      } else {
+        setSubmitError('We could not send your event request right now. Please try again or use the fallback email option below.')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -388,28 +523,42 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
                 <div className="absolute -bottom-20 -left-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
               </div>
               <h2 className="text-3xl font-bold mb-6">Book Your Event</h2>
-              <form
-                className="relative grid gap-4"
-                onSubmit={(event) => {
-                  event.preventDefault()
-                  setSubmitted(true)
-                }}
-              >
+              <form className="relative grid gap-4" onSubmit={handleEventLeadSubmit}>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2"><Label htmlFor="name">Name</Label><Input id="name" className={inputClasses} required /></div>
-                  <div className="space-y-2"><Label htmlFor="phone">Phone</Label><Input id="phone" className={inputClasses} required /></div>
+                  <div className="space-y-2"><Label htmlFor="name">Name</Label><Input id="name" name="name" className={inputClasses} required /></div>
+                  <div className="space-y-2"><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" className={inputClasses} required /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2"><Label htmlFor="eventType">Event Type</Label><Input id="eventType" className={inputClasses} required /></div>
-                  <div className="space-y-2"><Label htmlFor="location">Location</Label><Input id="location" className={inputClasses} required /></div>
+                  <div className="space-y-2"><Label htmlFor="eventType">Event Type</Label><Input id="eventType" name="eventType" className={inputClasses} required /></div>
+                  <div className="space-y-2"><Label htmlFor="location">Location</Label><Input id="location" name="location" className={inputClasses} required /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2"><Label htmlFor="date">Date</Label><Input id="date" className={inputClasses} type="date" required /></div>
-                  <div className="space-y-2"><Label htmlFor="budget">Budget</Label><Input id="budget" className={inputClasses} required /></div>
+                  <div className="space-y-2"><Label htmlFor="date">Date</Label><Input id="date" name="date" className={inputClasses} type="date" required /></div>
+                  <div className="space-y-2"><Label htmlFor="budget">Budget</Label><Input id="budget" name="budget" className={inputClasses} required /></div>
                 </div>
-                <div className="space-y-2"><Label htmlFor="notes">Additional Notes</Label><Textarea id="notes" className={textareaClasses} rows={4} /></div>
-                <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">Submit Lead</Button>
-                {submitted && <p className="text-emerald-400 text-sm">Thanks! We received your request and will contact you soon.</p>}
+                <div className="space-y-2"><Label htmlFor="notes">Additional Notes</Label><Textarea id="notes" name="notes" className={textareaClasses} rows={4} /></div>
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30"
+                >
+                  {isSubmitting ? 'Submitting…' : 'Submit Lead'}
+                </Button>
+                {submitStatus === 'success' && (
+                  <p className="text-emerald-400 text-sm">Thanks! We received your request and will contact you soon.</p>
+                )}
+                {submitStatus === 'error' && (
+                  <div className="space-y-3">
+                    <p className="text-sm text-destructive">
+                      {submitError || 'Something went wrong. Please try again later or contact us directly.'}
+                    </p>
+                    {fallbackMailtoUrl && (
+                      <Button asChild variant="outline" className="w-full">
+                        <a href={fallbackMailtoUrl}>Send via Email App (Fallback)</a>
+                      </Button>
+                    )}
+                  </div>
+                )}
               </form>
             </Card>
           </div>
