@@ -43,6 +43,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [fallbackMailtoUrl, setFallbackMailtoUrl] = useState<string | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { scrollY } = useScroll()
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
@@ -296,14 +297,39 @@ function App() {
     </motion.div>
   )
 
+  const buildFallbackMailto = (values: ContactFormValues) => {
+    const subject = encodeURIComponent(`New Inquiry - ${values.serviceType}`)
+    const body = encodeURIComponent(
+      [
+        `Full Name: ${values.fullName}`,
+        `Company: ${values.companyName || 'N/A'}`,
+        `Email: ${values.email}`,
+        `Phone: ${values.phone}`,
+        `Service Type: ${values.serviceType}`,
+        `Budget: ${values.budget}`,
+        `Timeline: ${values.timeline}`,
+        `Delivery Mode: ${values.deliveryMode}`,
+        `Heard About Us: ${values.discoveryChannel}`,
+        '',
+        'Requirement:',
+        values.requirement
+      ].join('\n')
+    )
+
+    return `mailto:artevia.india@gmail.com?subject=${subject}&body=${body}`
+  }
+
   const handleFormSubmit = async (values: ContactFormValues) => {
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
     const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    const hasPlaceholderConfig = [serviceId, templateId, publicKey].some(value => !value || String(value).startsWith('your_'))
 
-    if (!serviceId || !templateId || !publicKey) {
+    setFallbackMailtoUrl(buildFallbackMailto(values))
+
+    if (hasPlaceholderConfig) {
       setSubmitStatus('error')
-      setSubmitError('Email service is not configured. Please add your EmailJS keys to the environment variables.')
+      setSubmitError('Email service is not configured. Add real EmailJS keys in `.env` (not placeholder values).')
       return
     }
 
@@ -311,32 +337,59 @@ function App() {
     setSubmitError(null)
 
     try {
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          full_name: values.fullName,
-          company_name: values.companyName || 'N/A',
-          email: values.email,
-          phone: values.phone,
-          service_type: values.serviceType,
-          requirement: values.requirement,
-          budget: values.budget,
-          timeline: values.timeline,
-          delivery_mode: values.deliveryMode,
-          discovery_channel: values.discoveryChannel
-        },
-        {
-          publicKey
+      let lastError: unknown
+
+      for (let attempt = 1; attempt <= 2; attempt += 1) {
+        try {
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              full_name: values.fullName,
+              company_name: values.companyName || 'N/A',
+              email: values.email,
+              phone: values.phone,
+              service_type: values.serviceType,
+              requirement: values.requirement,
+              budget: values.budget,
+              timeline: values.timeline,
+              delivery_mode: values.deliveryMode,
+              discovery_channel: values.discoveryChannel
+            },
+            {
+              publicKey
+            }
+          )
+
+          lastError = null
+          break
+        } catch (error) {
+          lastError = error
+          if (attempt < 2) {
+            await new Promise(resolve => window.setTimeout(resolve, 700))
+          }
         }
-      )
+      }
+
+      if (lastError) {
+        throw lastError
+      }
 
       setSubmitStatus('success')
+      setFallbackMailtoUrl(null)
       reset()
     } catch (error) {
       console.error('EmailJS error:', error)
+      const emailError = error as { status?: number; text?: string; message?: string }
+      const issueText = `${emailError?.text || ''} ${emailError?.message || ''}`.toLowerCase()
+
       setSubmitStatus('error')
-      setSubmitError('We could not send your message right now. Please try again or contact us directly.')
+
+      if (issueText.includes('service') || emailError?.status === 503) {
+        setSubmitError('Email service is temporarily unstable. Please use the fallback email button below while we restore delivery.')
+      } else {
+        setSubmitError('We could not send your message right now. Please try again or use the fallback email option below.')
+      }
     }
   }
 
@@ -1102,9 +1155,16 @@ function App() {
                       </p>
                     )}
                     {submitStatus === 'error' && (
-                      <p className="text-sm text-destructive">
-                        {submitError || 'Something went wrong. Please try again later or contact us directly.'}
-                      </p>
+                      <div className="space-y-3">
+                        <p className="text-sm text-destructive">
+                          {submitError || 'Something went wrong. Please try again later or contact us directly.'}
+                        </p>
+                        {fallbackMailtoUrl && (
+                          <Button asChild variant="outline" className="w-full">
+                            <a href={fallbackMailtoUrl}>Send via Email App (Fallback)</a>
+                          </Button>
+                        )}
+                      </div>
                     )}
                   </div>
                 </Card>
