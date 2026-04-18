@@ -117,8 +117,8 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
             </span>
           </button>
           <div className="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-3">
-            <Button variant="outline" onClick={onNavigateHome} className="w-full">Home</Button>
-            <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Button variant="outline" onClick={onNavigateHome} className="w-full sm:w-auto">Home</Button>
+            <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground">
               <a href="#lead-form">Book Now</a>
             </Button>
           </div>
