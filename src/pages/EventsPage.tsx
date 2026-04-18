@@ -51,6 +51,10 @@ const faqItems = [
   }
 ]
 
+const eventsInstagramUrl = 'https://www.instagram.com/artevia.events/?utm_source=ig_web_button_share_sheet'
+const eventsPortfolioDriveUrl = 'https://drive.google.com/drive/folders/1nrNYvYizAyYiZVVXt8wvabsE5rvN582E?usp=sharing'
+const eventTypeOptions = ['Wedding', 'Pre-Wedding', 'Reception', 'Engagement', 'Others']
+
 function ensureMeta(name: string, content: string) {
   let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
   if (!meta) {
@@ -71,6 +75,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
   const fieldShellClasses =
     'w-full rounded-xl border border-white/12 bg-white/[0.08] px-4 text-base text-foreground/90 placeholder:text-foreground/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-all focus-visible:border-accent focus-visible:ring-accent/25 focus-visible:ring-[3px] focus-visible:ring-offset-0 focus-visible:outline-none backdrop-blur-md'
   const inputClasses = `${fieldShellClasses} h-12`
+  const selectClasses = `${fieldShellClasses} h-12 appearance-none`
   const textareaClasses = `${fieldShellClasses} min-h-[140px] py-3 resize-y`
 
   useEffect(() => {
@@ -412,6 +417,19 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Our Event & Product Shoot Portfolio</h2>
             <p className="text-foreground/70 mb-6">Explore our work across weddings, corporate events, and product shoots — crafted with creativity and precision.</p>
 
+            <div className="mb-8">
+              <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">
+                <a
+                  href={eventsPortfolioDriveUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Open ARTEVIA Events portfolio on Google Drive"
+                >
+                  Open Full Portfolio on Drive
+                </a>
+              </Button>
+            </div>
+
             {portfolioItems.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-6">
                 {[
@@ -529,7 +547,19 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
                   <div className="space-y-2"><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" className={inputClasses} required /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-2"><Label htmlFor="eventType">Event Type</Label><Input id="eventType" name="eventType" className={inputClasses} required /></div>
+                  <div className="space-y-2">
+                    <Label htmlFor="eventType">Event Type</Label>
+                    <select id="eventType" name="eventType" className={selectClasses} defaultValue="" required>
+                      <option value="" disabled>
+                        Select event type
+                      </option>
+                      {eventTypeOptions.map((eventType) => (
+                        <option key={eventType} value={eventType}>
+                          {eventType}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="space-y-2"><Label htmlFor="location">Location</Label><Input id="location" name="location" className={inputClasses} required /></div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -564,6 +594,47 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
           </div>
         </section>
       </main>
+
+      <footer className="px-6 pb-12">
+        <div className="max-w-7xl mx-auto">
+          <Card className="glass-card p-6 md:p-8">
+            <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
+                    <img src={arteviaLogo} alt="ARTEVIA EVENTS" className="h-9 w-9 rounded-full object-contain" />
+                  </div>
+                  <div>
+                    <p className="text-base font-semibold text-foreground">ARTEVIA EVENTS</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-foreground/55">Capture Every Story</p>
+                  </div>
+                </div>
+                <p className="text-sm text-foreground/70">
+                  Event photography, videography, and post-production services across India.
+                </p>
+                <p className="text-sm text-foreground/70">Phone: {contactNumber}</p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button asChild variant="outline" className="w-full sm:w-auto">
+                  <a href={eventsInstagramUrl} target="_blank" rel="noreferrer">
+                    Instagram @artevia.events
+                  </a>
+                </Button>
+                <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                  <a href={eventsPortfolioDriveUrl} target="_blank" rel="noreferrer">
+                    Drive Portfolio
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            <div className="mt-6 border-t border-border/70 pt-4 text-center text-sm text-foreground/60">
+              © {new Date().getFullYear()} ARTEVIA Events
+            </div>
+          </Card>
+        </div>
+      </footer>
 
       <a
         href={`https://wa.me/${contactNumber.replace(/\D/g, '')}`}

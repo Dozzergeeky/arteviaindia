@@ -107,15 +107,22 @@ function App() {
       image: '/static/img/Arnab.jpeg'
     },
     {
-      name: 'Aniruddha Mukherjee',
+      name: 'Abhilash Palit',
       role: 'Graphics Intern',
+      description: 'Creating compelling visual concepts and design assets with clarity, creativity, and impact.',
+      gradient: 'from-secondary to-primary',
+      image: '/static/img/Abhilash.jpg'
+    },
+    {
+      name: 'Aniruddha Mukherjee',
+      role: 'Video Editing Intern',
       description: 'Bringing imagination to life through bold visuals and creative precision.',
       gradient: 'from-primary to-accent',
       image: '/static/img/Aniruddha.jpeg'
     },
     {
       name: 'Ishita Shaw',
-      role: 'Graphics Intern',
+      role: 'Video Editing Intern',
       description: 'Designing stories that speak, inspire, and leave a lasting impression.',
       gradient: 'from-secondary to-accent',
       image: '/static/img/Ishita.jpeg'
