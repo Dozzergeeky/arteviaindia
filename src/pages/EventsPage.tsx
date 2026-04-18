@@ -107,23 +107,25 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-3">
-          <button type="button" onClick={onNavigateHome} className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
-              <img src={arteviaLogo} alt="ARTEVIA" className="h-9 w-9 rounded-full object-contain" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <button type="button" onClick={onNavigateHome} className="flex items-center gap-3 min-w-0 self-start">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
+              <img src={arteviaLogo} alt="ARTEVIA" className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-contain" />
             </div>
-            <span className="text-lg font-bold">ARTEVIA EVENTS</span>
+            <span className="text-base sm:text-lg font-bold leading-tight tracking-wide">
+              ARTEVIA <span className="block sm:inline">EVENTS</span>
+            </span>
           </button>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" onClick={onNavigateHome}>Home</Button>
-            <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
+          <div className="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-3">
+            <Button variant="outline" onClick={onNavigateHome} className="w-full">Home</Button>
+            <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">
               <a href="#lead-form">Book Now</a>
             </Button>
           </div>
         </div>
       </nav>
 
-      <main className="pt-24">
+      <main className="pt-32 sm:pt-24">
         <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden px-6 py-24">
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute top-24 left-10 h-80 w-80 rounded-full bg-primary/30 blur-3xl animate-glow" />
