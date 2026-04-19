@@ -492,7 +492,7 @@ function App() {
   if (currentPath === '/events') {
     return (
       <EventsPage
-        arteviaLogo={arteviaLogo}
+        arteviaLogo="/static/img/BLACK FINAL LOGO.png"
         contactNumber={contactNumbers[0]}
         onNavigateHome={() => navigateTo('/')}
       />
