@@ -1,0 +1,52 @@
+---
+import '../main.css'
+
+type StructuredData = Record<string, unknown> | Array<Record<string, unknown>>
+
+interface Props {
+  title: string
+  description: string
+  pathname?: string
+  structuredData?: StructuredData
+}
+
+const {
+  title,
+  description,
+  pathname = '/',
+  structuredData
+} = Astro.props
+
+const site = Astro.site ?? new URL('https://arteviaindia.com')
+const canonicalUrl = new URL(pathname, site).toString()
+const structuredDataItems = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : []
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {structuredDataItems.map((item) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

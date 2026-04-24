@@ -1,0 +1,18 @@
+---
+import App from '@/App'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+const emailConfig = {
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+}
+---
+
+<BaseLayout
+  title="ARTEVIA | Where Art Meets Vision"
+  description="ARTEVIA is a creative design studio for branding, social media, printing, campaigns, and digital content."
+  pathname="/"
+>
+  <App client:only="react" emailConfig={emailConfig} />
+</BaseLayout>

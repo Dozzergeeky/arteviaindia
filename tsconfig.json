@@ -21,13 +21,16 @@
     /* Linting */
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ]
-    },
+    }
   },
   "include": [
-    "src"
+    ".astro/types.d.ts",
+    "src",
+    "astro.config.mjs"
   ]
 }

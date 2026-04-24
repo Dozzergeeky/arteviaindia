@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import EventsPage from '@/views/EventsPage'
+
+const emailConfig = {
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+}
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Artevia Events Photography & Videography Services',
+  description:
+    'Professional event photography, videography and post-production services across India for weddings, corporate events and product shoots.',
+  provider: {
+    '@type': 'Organization',
+    name: 'ARTEVIA',
+    url: 'https://arteviaindia.com/events'
+  },
+  areaServed: {
+    '@type': 'Country',
+    name: 'India'
+  },
+  serviceType: ['Event Photography', 'Event Videography', 'Product Shoot', 'Post Production']
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Do you provide services outside Kolkata?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, Artevia offers pan-India event coverage.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you cover product shoots?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, we specialize in both product photography and product videography.'
+      }
+    },
+    {
+      '@type': 'Question',
+      name: 'How early should we book?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'We recommend booking at least 6-12 months in advance depending on the event type.'
+      }
+    }
+  ]
+}
+---
+
+<BaseLayout
+  title="Artevia Events | Wedding, Corporate & Product Shoot Photography & Videography in India"
+  description="Artevia offers professional event photography, videography & editing services across India. Weddings, corporate events, product shoots & more. Capture every moment with Artevia."
+  pathname="/events"
+  structuredData={[serviceSchema, faqSchema]}
+>
+  <EventsPage
+    client:only="react"
+    arteviaLogo="/static/img/BLACK FINAL LOGO.png"
+    contactNumber="+91 79804 77189"
+    homeHref="/"
+    emailConfig={emailConfig}
+  />
+</BaseLayout>

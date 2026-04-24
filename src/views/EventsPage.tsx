@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
 import emailjs from '@emailjs/browser'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -11,7 +11,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 type EventsPageProps = {
   arteviaLogo: string
   contactNumber: string
-  onNavigateHome: () => void
+  homeHref?: string
+  emailConfig?: {
+    serviceId?: string
+    templateId?: string
+    publicKey?: string
+  }
 }
 
 type PortfolioFilter = 'all' | 'wedding' | 'corporate' | 'product' | 'personal'
@@ -56,17 +61,7 @@ const eventsInstagramUrl = 'https://www.instagram.com/artevia.events/?utm_source
 const eventsPortfolioDriveUrl = 'https://drive.google.com/drive/folders/1nrNYvYizAyYiZVVXt8wvabsE5rvN582E?usp=sharing'
 const eventTypeOptions = ['Wedding Event', 'Personal Event', 'Corporate Event', 'Commercial Shoot', 'Others']
 
-function ensureMeta(name: string, content: string) {
-  let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
-  if (!meta) {
-    meta = document.createElement('meta')
-    meta.name = name
-    document.head.appendChild(meta)
-  }
-  meta.content = content
-}
-
-function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPageProps) {
+function EventsPage({ arteviaLogo, contactNumber, homeHref = '/', emailConfig }: EventsPageProps) {
   const [activeFilter, setActiveFilter] = useState<PortfolioFilter>('all')
   const [activeItem, setActiveItem] = useState<PortfolioItem | null>(null)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -79,47 +74,10 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
   const selectClasses = `${fieldShellClasses} h-12 appearance-none`
   const textareaClasses = `${fieldShellClasses} min-h-[140px] py-3 resize-y`
 
-  useEffect(() => {
-    document.title = 'Artevia Events | Wedding, Corporate & Product Shoot Photography & Videography in India'
-    ensureMeta('description', 'Artevia offers professional event photography, videography & editing services across India. Weddings, corporate events, product shoots & more. Capture every moment with Artevia.')
-    ensureMeta('keywords', 'event photography India, wedding photography India, corporate event videography, product shoot services India, event videographer India, pre wedding shoot India, birthday photography, engagement shoot, cinematic videography, brand event coverage, product photography services, pan India event coverage')
-  }, [])
-
   const filteredItems = useMemo(() => {
     if (activeFilter === 'all') return portfolioItems
     return portfolioItems.filter(item => item.category === activeFilter)
   }, [activeFilter])
-
-  const serviceSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'Artevia Events Photography & Videography Services',
-    description:
-      'Professional event photography, videography and post-production services across India for weddings, corporate events and product shoots.',
-    provider: {
-      '@type': 'Organization',
-      name: 'ARTEVIA',
-      url: 'https://arteviaindia.com/events'
-    },
-    areaServed: {
-      '@type': 'Country',
-      name: 'India'
-    },
-    serviceType: ['Event Photography', 'Event Videography', 'Product Shoot', 'Post Production']
-  }
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map(item => ({
-      '@type': 'Question',
-      name: item.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.a
-      }
-    }))
-  }
 
   const buildFallbackMailto = (values: EventLeadValues) => {
     const subject = encodeURIComponent(`New Event Lead - ${values.eventType}`)
@@ -159,9 +117,9 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
       notes: value('notes')
     }
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    const serviceId = emailConfig?.serviceId
+    const templateId = emailConfig?.templateId
+    const publicKey = emailConfig?.publicKey
     const hasPlaceholderConfig = [serviceId, templateId, publicKey].some(config => !config || String(config).startsWith('your_'))
 
     setFallbackMailtoUrl(buildFallbackMailto(leadValues))
@@ -245,22 +203,21 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-
       <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <button type="button" onClick={onNavigateHome} className="flex items-center gap-3 min-w-0 self-start">
+          <a href={homeHref} className="flex items-center gap-3 min-w-0 self-start">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
               <img src={arteviaLogo} alt="ARTEVIA" className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-contain" />
             </div>
             <span className="text-base sm:text-lg font-bold leading-tight tracking-wide">
               ARTEVIA <span className="block sm:inline">EVENTS</span>
             </span>
-          </button>
-          <div className="grid grid-cols-2 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-3">
-            <Button variant="outline" onClick={onNavigateHome} className="w-full sm:w-auto">Home</Button>
-            <Button asChild className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-accent-foreground">
+          </a>
+          <div className="flex w-full sm:w-auto gap-3 sm:items-center">
+            <Button asChild variant="outline" className="flex-1 sm:flex-none rounded-full px-6 sm:px-8 border-white/20 bg-transparent hover:bg-white/10 transition-colors">
+              <a href={homeHref}>Home</a>
+            </Button>
+            <Button asChild className="flex-1 sm:flex-none rounded-full px-6 sm:px-8 bg-accent hover:bg-accent/90 text-accent-foreground border border-transparent shadow-md shadow-accent/20">
               <a href="#lead-form">Book Now</a>
             </Button>
           </div>
@@ -509,22 +466,20 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
         </section>
 
         <section className="px-6 py-24">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Frequently Asked Questions (FAQ)</h2>
-            <Card className="glass-card rounded-3xl border border-border/40 px-5 py-2 md:px-6">
-              <Accordion type="multiple" className="w-full">
-                {faqItems.map((item, index) => (
-                  <AccordionItem key={item.q} value={`faq-${index}`} className="px-1 md:px-2">
-                    <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-5">
-                      {item.q}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-foreground/75 text-sm md:text-base leading-relaxed pb-6">
-                      {item.a}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </Card>
+          <div className="max-w-5xl mx-auto w-full">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Frequently Asked Questions (FAQ)</h2>
+            <Accordion type="multiple" className="w-full space-y-4">
+              {faqItems.map((item, index) => (
+                <AccordionItem key={item.q} value={`faq-${index}`} className="glass-card rounded-2xl px-6 md:px-8 border border-white/10 data-[state=open]:bg-white/5 transition-colors">
+                  <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-5 md:py-6 text-left">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-foreground/75 text-sm md:text-base leading-relaxed pb-6 md:pb-8">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </section>
 

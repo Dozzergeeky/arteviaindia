@@ -12,7 +12,6 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { FacebookLogo, InstagramLogo, LinkedinLogo, YoutubeLogo, Sparkle, CaretDown, List, X } from '@phosphor-icons/react'
-import EventsPage from '@/pages/EventsPage'
 
 const contactFormSchema = z.object({
   fullName: z.string().min(2, 'Please enter your full name.'),
@@ -38,8 +37,17 @@ type TeamMember = {
   imagePosition?: string
 }
 
-function App() {
-  const [currentPath, setCurrentPath] = useState(() => window.location.pathname)
+type EmailConfig = {
+  serviceId?: string
+  templateId?: string
+  publicKey?: string
+}
+
+type AppProps = {
+  emailConfig?: EmailConfig
+}
+
+function App({ emailConfig }: AppProps) {
   const [activeSection, setActiveSection] = useState('home')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitError, setSubmitError] = useState<string | null>(null)
@@ -327,9 +335,9 @@ function App() {
   }
 
   const handleFormSubmit = async (values: ContactFormValues) => {
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    const serviceId = emailConfig?.serviceId
+    const templateId = emailConfig?.templateId
+    const publicKey = emailConfig?.publicKey
     const hasPlaceholderConfig = [serviceId, templateId, publicKey].some(value => !value || String(value).startsWith('your_'))
 
     setFallbackMailtoUrl(buildFallbackMailto(values))
@@ -402,10 +410,6 @@ function App() {
 
 
   useEffect(() => {
-    if (currentPath !== '/') {
-      return
-    }
-
     const handleScroll = () => {
       const sections = ['home', 'work', 'services', 'about', 'contact', 'faq']
       const current = sections.find(section => {
@@ -419,9 +423,10 @@ function App() {
       if (current) setActiveSection(current)
     }
 
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [currentPath])
+  }, [])
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
@@ -456,49 +461,6 @@ function App() {
     }
   }
 
-  const navigateTo = (path: string) => {
-    if (window.location.pathname !== path) {
-      window.history.pushState({}, '', path)
-      setCurrentPath(path)
-      window.scrollTo({ top: 0, behavior: 'auto' })
-    }
-    setIsMobileMenuOpen(false)
-  }
-
-  useEffect(() => {
-    const handlePopState = () => setCurrentPath(window.location.pathname)
-
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
-
-  useEffect(() => {
-    if (currentPath === '/events') {
-      return
-    }
-
-    document.title = 'ARTEVIA | Where Art Meets Vision'
-
-    const description = 'ARTEVIA is a creative design studio for branding, social media, printing, campaigns, and digital content.'
-    let descriptionMeta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
-    if (!descriptionMeta) {
-      descriptionMeta = document.createElement('meta')
-      descriptionMeta.name = 'description'
-      document.head.appendChild(descriptionMeta)
-    }
-    descriptionMeta.content = description
-  }, [currentPath])
-
-  if (currentPath === '/events') {
-    return (
-      <EventsPage
-        arteviaLogo="/static/img/BLACK FINAL LOGO.png"
-        contactNumber={contactNumbers[0]}
-        onNavigateHome={() => navigateTo('/')}
-      />
-    )
-  }
-
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       <nav className="fixed top-0 left-0 right-0 z-50 glass-nav">
@@ -517,12 +479,12 @@ function App() {
 
             <div className="flex items-center gap-4">
               <div className="hidden md:flex items-center gap-8">
-                <button
-                  onClick={() => navigateTo('/events')}
+                <a
+                  href="/events"
                   className="text-sm font-medium transition-all hover:text-accent relative text-foreground/80"
                 >
                   Events
-                </button>
+                </a>
                 {navItems.map((item) => (
                   <button
                     key={item.id}
@@ -569,12 +531,12 @@ function App() {
               className="md:hidden absolute left-0 right-0 top-full mt-3 overflow-hidden rounded-2xl border border-white/15 bg-background/95 shadow-2xl backdrop-blur-xl"
             >
               <div className="px-6 py-5 space-y-4">
-                <button
-                  onClick={() => navigateTo('/events')}
+                <a
+                  href="/events"
                   className="flex w-full items-center justify-between rounded-xl border border-transparent px-4 py-3 text-base font-medium transition hover:border-accent/40 hover:bg-accent/10 text-foreground/80"
                 >
                   Events
-                </button>
+                </a>
                 {navItems.map(item => (
                   <button
                     key={item.id}
@@ -609,11 +571,8 @@ function App() {
               </span>
               <span className="text-gradient font-semibold">ARTEVIA EVENTS</span> is live.
             </p>
-            <Button
-              onClick={() => navigateTo('/events')}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30"
-            >
-              Explore Events
+            <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">
+              <a href="/events">Explore Events</a>
             </Button>
           </div>
         </div>
@@ -694,13 +653,8 @@ function App() {
             >
               Explore Our Work
             </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => navigateTo('/events')}
-              className="font-semibold text-lg px-8 py-6 rounded-2xl"
-            >
-              Explore Events
+            <Button asChild variant="outline" size="lg" className="font-semibold text-lg px-8 py-6 rounded-2xl">
+              <a href="/events">Explore Events</a>
             </Button>
           </motion.div>
         </motion.div>
@@ -846,8 +800,8 @@ function App() {
           </div>
 
           <div className="mt-10 flex justify-center">
-            <Button onClick={() => navigateTo('/events')} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">
-              Explore Event Photography & Videography
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-lg shadow-accent/30">
+              <a href="/events">Explore Event Photography & Videography</a>
             </Button>
           </div>
         </div>
@@ -1195,18 +1149,20 @@ function App() {
             </p>
           </motion.div>
 
-          <Accordion type="multiple" className="glass-card rounded-3xl border border-border/40">
-            {faqItems.map((item, index) => (
-              <AccordionItem key={item.question} value={`faq-${index}`} className="px-6">
-                <AccordionTrigger className="text-lg font-semibold text-foreground py-6">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="pb-6">
-                  {item.content}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <div className="w-full">
+            <Accordion type="multiple" className="space-y-4">
+              {faqItems.map((item, index) => (
+                <AccordionItem key={item.question} value={`faq-${index}`} className="glass-card rounded-2xl px-6 md:px-8 border border-white/10 data-[state=open]:bg-white/5 transition-colors">
+                  <AccordionTrigger className="text-lg font-semibold text-foreground py-6 hover:no-underline text-left">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-6 md:pb-8">
+                    {item.content}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
