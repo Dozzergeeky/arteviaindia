@@ -207,7 +207,7 @@ function EventsPage({ arteviaLogo, contactNumber, homeHref = '/', emailConfig }:
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <a href={homeHref} className="flex items-center gap-3 min-w-0 self-start">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-secondary via-accent to-primary flex items-center justify-center">
-              <img src={arteviaLogo} alt="ARTEVIA" className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-contain" />
+              <img src={arteviaLogo} alt="ARTEVIA" className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-contain" fetchPriority="high" />
             </div>
             <span className="text-base sm:text-lg font-bold leading-tight tracking-wide">
               ARTEVIA <span className="block sm:inline">EVENTS</span>

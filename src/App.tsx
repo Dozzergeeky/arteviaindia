@@ -293,6 +293,8 @@ function App({ emailConfig }: AppProps) {
               alt={member.name}
               className="h-full w-full object-cover"
               style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
+              loading="lazy"
+              decoding="async"
             />
           </div>
         ) : (
@@ -619,7 +621,7 @@ function App({ emailConfig }: AppProps) {
             <div className="inline-block glass-card px-10 py-16 rounded-[2rem]">
               <div className="w-36 h-36 mx-auto mb-8 rounded-[2rem] bg-gradient-to-br from-secondary via-accent to-primary p-2 glow-effect">
                 <div className="w-full h-full rounded-[1.8rem] bg-background flex items-center justify-center">
-                  <img src={arteviaLogo} alt="ARTEVIA logo" className="h-28 w-auto object-contain" />
+                  <img src={arteviaLogo} alt="ARTEVIA logo" className="h-28 w-auto object-contain" fetchPriority="high" />
                 </div>
               </div>
               <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight">
@@ -690,6 +692,8 @@ function App({ emailConfig }: AppProps) {
                     src={project.image}
                     alt={`${project.title} preview`}
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-background/20" />
                 </div>
