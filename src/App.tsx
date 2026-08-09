@@ -60,13 +60,15 @@ function App() {
     { id: 'faq', label: 'FAQ' }
   ] as const
   const serviceTypes = [
-    'Branding & Identity Design',
-    'Social Media Design',
-    'Printing & Packaging',
-    'Event / Campaign Design',
-    'Video Editing',
-    'Web & App Design',
-    'Merchandise & Custom Orders',
+    'Brand Strategy & Identity',
+    'Digital Marketing & Social Media',
+    'Website & App Development',
+    'Performance Marketing & SEO',
+    'Creative Design & Content',
+    'Video Production & Editing',
+    'Marketing Strategy & Consultancy',
+    'Print, Packaging & Merchandise',
+    'Complete Brand & Digital Solutions',
     'Others (please specify)'
   ]
   const deliveryModes = [
@@ -212,7 +214,7 @@ function App() {
           <p>
             Yes! We provide end-to-end printing solutions - from business cards, flyers, banners, packaging, menus, and standees to customized print materials.
           </p>
-          <p>Pan-India delivery is available, with a minimum order quantity (MOQ) depending on the print type and order size.</p>
+          <p>Pan-India service available.</p>
         </div>
       )
     },
@@ -820,15 +822,15 @@ function App() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: 'Logo & Brand Identity', description: 'Logos and complete branding solutions that capture your essence' },
-              { title: 'Social Media Creatives', description: 'Eye-catching content that drives engagement and growth' },
-              {title:'Posters,Flyers & Brochures','description':'Creative and impactful poster, flyer, and brochure designs that elevate your brand'},
-              { title: 'Video Editing & Thumbnails', description: 'Professional video production and post-production services' },
-              { title: 'Marketing Campaigns', description: 'Strategic campaigns that connect and convert audiences' },
-              { title: 'T-Shirt and Merchandise', description: 'Unique and stylish T-shirt and merchandise designs that showcase your brand identity' },
-              { title: 'Custom Cards & Books', description: 'Elegant and personalized custom card and books for individuals and companies' },
-              { title: 'Digital Strategy', description: 'Technology-driven approaches to amplify your brand presence' },
-              { title: 'Printing Solutions', description: 'High-quality printing solutions for banners, flex, ID cards, and more with perfect finish' },
+              { title: 'Brand Strategy & Identity', description: 'Build a brand that stands out and stays remembered.' },
+              { title: 'Digital Marketing & Social Media', description: 'Build your audience. Strengthen your presence. Drive growth.' },
+              { title: 'Website & App Development', description: 'Turn your business into a powerful digital experience.' },
+              { title: 'Performance Marketing & SEO', description: 'Reach the right people and turn attention into leads.' },
+              { title: 'Creative Design & Content', description: 'Create visuals that stop the scroll and tell your story.' },
+              { title: 'Video Production & Editing', description: 'Turn your brand into content people want to watch.' },
+              { title: 'Marketing Strategy & Consultancy', description: 'Get the strategy, clarity, and direction to grow smarter.' },
+              { title: 'Print, Packaging & Merchandise', description: 'Bring your brand to life beyond the digital screen.' },
+              { title: 'Complete Brand & Digital Solutions', description: 'One partner for your brand, marketing, technology, and growth.' },
             ].map((service, index) => (
               <motion.div
                 key={service.title}
@@ -1225,7 +1227,7 @@ function App() {
                 <div className="rounded-xl border border-accent/25 bg-accent/5 px-5 py-3 text-sm text-foreground/70">
                   <p className="font-medium text-foreground mb-1">Note</p>
                   <p>
-                    Pan-India printing & merchandise delivery available. Minimum order quantity applies by order type.
+                    Pan-India service available.
                   </p>
                 </div>
               </div>
