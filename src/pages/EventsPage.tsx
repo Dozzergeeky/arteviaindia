@@ -466,7 +466,7 @@ function EventsPage({ arteviaLogo, contactNumber, onNavigateHome }: EventsPagePr
                     <Card className="glass-card overflow-hidden">
                       <div className="h-56 relative overflow-hidden">
                         <img
-                          src={item.type === 'image' ? item.src : item.poster || '/static/img/artevia-logo.png'}
+                          src={item.type === 'image' ? item.src : item.poster || '/static/img/artevia-logo.webp'}
                           alt={item.title}
                           loading="lazy"
                           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"

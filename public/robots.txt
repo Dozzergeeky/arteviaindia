@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arteviaindia.com/sitemap.xml

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { FacebookLogo, InstagramLogo, LinkedinLogo, YoutubeLogo, Sparkle, CaretDown, List, X } from '@phosphor-icons/react'
-import EventsPage from '@/pages/EventsPage'
+const EventsPage = lazy(() => import('@/pages/EventsPage'))
 
 const contactFormSchema = z.object({
   fullName: z.string().min(2, 'Please enter your full name.'),
@@ -49,7 +49,7 @@ function App() {
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
   const heroScale = useTransform(scrollY, [0, 300], [1, 0.95])
 
-  const arteviaLogo = '/static/img/artevia-logo.png'
+  const arteviaLogo = '/static/img/artevia-logo.webp'
   const contactNumbers = ['+91 79804 77189']
   const navItems = [
     { id: 'home', label: 'Home Page' },
@@ -80,21 +80,21 @@ function App() {
       role: 'Founder & Creative Visionary',
       description: "The heart of ARTEVIA's creative direction, bringing imagination to life through design that inspires and connects.",
       gradient: 'from-secondary to-accent',
-      image: '/static/img/krishu.JPG'
+      image: '/static/img/krishu.webp'
     },
     {
       name: 'Atanu Pal',
       role: 'Chief Technology Officer (CTO)',
       description: 'The tech innovator ensuring every creative idea is backed by powerful digital execution and modern tools.',
       gradient: 'from-primary to-secondary',
-      image: '/static/img/atanu.jpg'
+      image: '/static/img/atanu.webp'
     },
     {
       name: 'Debargha Bhattacharjee',
       role: 'Chief Technical Advisor',
       description: 'Merging creativity with technology to keep ARTEVIA ahead of the curve.',
       gradient: 'from-secondary to-primary',
-      image: '/static/img/Debargha.png'
+      image: '/static/img/Debargha.webp'
     }
   ]
   const extendedTeamMembers: TeamMember[] = [
@@ -104,28 +104,28 @@ function App() {
       role: 'Sales Intern',
       description: 'A passionate communicator learning the art of turning ideas into collaborations and connections.',
       gradient: 'from-accent to-secondary',
-      image: '/static/img/Arnab.jpeg'
+      image: '/static/img/Arnab.webp'
     },
     {
       name: 'Abhilash Palit',
       role: 'Graphics Intern',
       description: 'Bringing ideas to life with visually striking and creative designs.',
       gradient: 'from-secondary to-primary',
-      image: '/static/img/Abhilash.jpg'
+      image: '/static/img/Abhilash.webp'
     },
     {
       name: 'Aniruddha Mukherjee',
       role: 'Video Editing Intern',
       description: 'Turning raw footage into engaging experiences that capture attention.',
       gradient: 'from-primary to-accent',
-      image: '/static/img/Aniruddha.jpeg'
+      image: '/static/img/Aniruddha.webp'
     },
     {
       name: 'Ishita Shaw',
       role: 'Video Editing Intern',
       description: 'Crafting compelling stories through seamless edits and cinematic visuals.',
       gradient: 'from-secondary to-accent',
-      image: '/static/img/Ishita.jpeg'
+      image: '/static/img/Ishita.webp'
     }
   ]
   const extendedTeamCount = extendedTeamMembers.length
@@ -283,6 +283,8 @@ function App() {
             <img
               src={member.image}
               alt={member.name}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover"
               style={member.imagePosition ? { objectPosition: member.imagePosition } : undefined}
             />
@@ -491,11 +493,13 @@ function App() {
 
   if (currentPath === '/events') {
     return (
-      <EventsPage
-        arteviaLogo="/static/img/BLACK FINAL LOGO.png"
-        contactNumber={contactNumbers[0]}
-        onNavigateHome={() => navigateTo('/')}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <EventsPage
+          arteviaLogo="/static/img/BLACK FINAL LOGO.webp"
+          contactNumber={contactNumbers[0]}
+          onNavigateHome={() => navigateTo('/')}
+        />
+      </Suspense>
     )
   }
 
@@ -723,18 +727,20 @@ function App() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: 'Promotional Reel', category: 'Branding', image: '/static/img/biriyani.jpg', url: 'https://www.instagram.com/p/DOU8dU5iUUi/' },
-              { title: 'Social Campaign', category: 'Social Media', image: '/static/img/pizza poster.png', gradient: 'from-accent to-primary' },
-              { title: 'Product Launch Video', category: 'Video Production', image: '/static/img/codepup-vid.png', gradient: 'from-primary to-secondary', url: 'https://youtu.be/-CNNE5YbLAo?si=ONkYuxsmc7UT27k-' },
-              { title: 'Printed T-Shirts', category: 'Print Design', image: '/static/img/codepup.png', gradient: 'from-secondary via-accent to-primary' },
-              { title: 'Digital Marketing', category: 'Strategy', image: '/static/img/bbq.jpeg', gradient: 'from-primary to-accent', url: 'https://youtube.com/shorts/GoL8CraqDeQ?si=YRA22tkdDaA7C2BC' },
-              { title: 'Corporate Identity', category: 'Branding',  image: '/static/img/business card.png' }
+              { title: 'Promotional Reel', category: 'Branding', image: '/static/img/biriyani.webp', url: 'https://www.instagram.com/p/DOU8dU5iUUi/' },
+              { title: 'Social Campaign', category: 'Social Media', image: '/static/img/pizza poster.webp', gradient: 'from-accent to-primary' },
+              { title: 'Product Launch Video', category: 'Video Production', image: '/static/img/codepup-vid.webp', gradient: 'from-primary to-secondary', url: 'https://youtu.be/-CNNE5YbLAo?si=ONkYuxsmc7UT27k-' },
+              { title: 'Printed T-Shirts', category: 'Print Design', image: '/static/img/codepup.webp', gradient: 'from-secondary via-accent to-primary' },
+              { title: 'Digital Marketing', category: 'Strategy', image: '/static/img/bbq.webp', gradient: 'from-primary to-accent', url: 'https://youtube.com/shorts/GoL8CraqDeQ?si=YRA22tkdDaA7C2BC' },
+              { title: 'Corporate Identity', category: 'Branding',  image: '/static/img/business card.webp' }
             ].map((project, index) => {
               const media = project.image ? (
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={project.image}
                     alt={`${project.title} preview`}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-background/20" />

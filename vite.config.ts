@@ -22,4 +22,14 @@ export default defineConfig({
       '@': resolve(projectRoot, 'src')
     }
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'animation': ['framer-motion'],
+        }
+      }
+    }
+  },
 });
