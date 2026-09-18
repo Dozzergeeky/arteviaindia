@@ -95,6 +95,13 @@ function App() {
       description: 'Merging creativity with technology to keep ARTEVIA ahead of the curve.',
       gradient: 'from-secondary to-primary',
       image: '/static/img/Debargha.webp'
+    },
+    {
+      name: 'Muskan Mishra',
+      role: 'Cofounder & Head of Business Development',
+      description: "The strategic engine behind ARTEVIA's future, bridging the gap between imagination and execution through connections that empower and scale.",
+      gradient: 'from-secondary to-primary',
+      image: 'public/static/img/IMG-20250622-WA0110.jpg'
     }
   ]
   const extendedTeamMembers: TeamMember[] = [
@@ -105,20 +112,6 @@ function App() {
       description: 'A passionate communicator learning the art of turning ideas into collaborations and connections.',
       gradient: 'from-accent to-secondary',
       image: '/static/img/Arnab.webp'
-    },
-    {
-      name: 'Abhilash Palit',
-      role: 'Graphics Intern',
-      description: 'Bringing ideas to life with visually striking and creative designs.',
-      gradient: 'from-secondary to-primary',
-      image: '/static/img/Abhilash.webp'
-    },
-    {
-      name: 'Aniruddha Mukherjee',
-      role: 'Video Editing Intern',
-      description: 'Turning raw footage into engaging experiences that capture attention.',
-      gradient: 'from-primary to-accent',
-      image: '/static/img/Aniruddha.webp'
     },
     {
       name: 'Ishita Shaw',
